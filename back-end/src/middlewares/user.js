@@ -1,4 +1,4 @@
-const validateData = async(req, res, next) => {
+const validateData = async (req, res, next) => {
   const { email, password } = req.body;
 
   if (!email || !password) {
@@ -6,7 +6,7 @@ const validateData = async(req, res, next) => {
   }
 
   next();
-} 
+}; 
 
 module.exports = {
   validateData,
