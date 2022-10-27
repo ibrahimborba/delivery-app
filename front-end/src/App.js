@@ -1,6 +1,6 @@
 import React from 'react';
 import './App.css';
-import { Switch, Route } from 'react-router-dom';
+import { Switch, Route, Redirect } from 'react-router-dom';
 import Login from './pages/Login';
 import { UserProvider } from './context/UserContext';
 
@@ -9,7 +9,7 @@ function App() {
     <UserProvider>
       <Switch>
         <Route exact path="/login" component={ Login } />
-        <Route exact path="/" component={ Login } />
+        <Route exact path="/" render={ () => <Redirect to="/login" /> } />
       </Switch>
     </UserProvider>
   );
