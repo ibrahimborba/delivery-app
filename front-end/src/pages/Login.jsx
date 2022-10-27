@@ -1,15 +1,14 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, useContext } from 'react';
 import Input from '../components/Input';
 import Button from '../components/Button';
 import { login } from '../services/api';
+import { UserContext } from '../context/UserContext';
 
 function Login() {
-  const [user, setUser] = useState({
-    email: '',
-    password: '',
-  });
+  const [user, setUser] = useState({ email: '', password: '' });
   const [isDisabled, setIsDisabled] = useState(true);
-  const [errorResponse, setErrorResponse] = useState({});
+  const [errorResponse, setErrorResponse] = useState('');
+  const { setLoggedUser } = useContext(UserContext);
 
   useEffect(() => {
     const passwordTest = 6;
@@ -27,7 +26,8 @@ function Login() {
   const handleSubmit = async (event) => {
     event.preventDefault();
     const response = await login(user);
-    setErrorResponse(response);
+    const { email, token, role, message } = response;
+    return message ? setErrorResponse(message) : setLoggedUser({ email, token, role });
   };
 
   return (
@@ -64,13 +64,12 @@ function Login() {
           type="button"
           name="login"
           text="Ainda não tenho conta"
-          // onClick={ onClick }
         />
       </form>
       <p
-        hidden={ !errorResponse.message }
+        hidden={ !errorResponse }
       >
-        { errorResponse.message }
+        { errorResponse }
       </p>
     </div>
   );
