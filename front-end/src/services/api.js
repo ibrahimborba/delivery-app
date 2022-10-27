@@ -1,0 +1,14 @@
+import axios from 'axios';
+
+const LOGIN_ENDPOINT = 'http://localhost:3001/login';
+const REGISTER_ENDPOINT = 'http://localhost:3001/register';
+
+export async function login({ email, password }) {
+  const { data } = await axios.post(LOGIN_ENDPOINT, { email, password });
+  return data;
+}
+
+export async function register({ email, password, name }) {
+  const { data } = await axios.post(REGISTER_ENDPOINT, { email, password, name });
+  return data;
+}
