@@ -1,4 +1,5 @@
 import React, { useState, useEffect, useContext } from 'react';
+import { Redirect } from 'react-router-dom';
 import Input from '../components/Input';
 import Button from '../components/Button';
 import { login } from '../services/api';
@@ -11,9 +12,10 @@ function Login() {
   const { setLoggedUser } = useContext(UserContext);
 
   useEffect(() => {
-    const passwordTest = 6;
+    const MIN_PASS_LENGTH = 6;
     const emailTest = /^\w+([-+.']\w+)*@\w+([-.]\w+)*\.\w+([-.]\w+)*$/;
-    setIsDisabled(!(emailTest.test(user.email) && user.password.length > passwordTest));
+    setIsDisabled(!(emailTest.test(user.email)
+      && user.password.length >= MIN_PASS_LENGTH));
   }, [user.email, user.password]);
 
   const handleChange = ({ target: { name, value } }) => {
@@ -27,7 +29,11 @@ function Login() {
     event.preventDefault();
     const response = await login(user);
     const { email, token, role, message } = response;
-    return message ? setErrorResponse(message) : setLoggedUser({ email, token, role });
+    if (message) {
+      return setErrorResponse(message);
+    }
+    setLoggedUser({ email, token, role });
+    return <Redirect to="/customer/products" />;
   };
 
   return (
@@ -67,6 +73,7 @@ function Login() {
         />
       </form>
       <p
+        data-testid="common_login__element-invalid-email"
         hidden={ !errorResponse }
       >
         { errorResponse }
