@@ -11,6 +11,26 @@ const getUser = async (email, password) => user.findOne({
   },
 });
 
+const create = async ({ email, password, name, role }) => {
+  const userAlreadyExist = user.findOne({ where: { email } });
+
+  if (userAlreadyExist) {
+    return null;
+  }
+
+  const { id } = await user.create(
+    {
+      email,
+      password: md5(password),
+      name,
+      role,
+    },
+  );
+  
+  return { id, email, name, role };
+};
+
 module.exports = {
   getUser,
+  create,
 };

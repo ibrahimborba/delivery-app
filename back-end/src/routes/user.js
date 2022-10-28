@@ -5,6 +5,7 @@ const userValidation = require('../middlewares/user');
 
 const route = express.Router();
 
-route.post('/', userValidation.validateData, userController.getUser);
+route.post('/login', userValidation.validateData, userController.getUser);
+route.post('/register', userController.create);
 
 module.exports = route;
