@@ -16,7 +16,7 @@ const INVALID_PASSWORD = '12345';
 describe('Login Page', () => {
   describe('Render', () => {
     it('checks if Login page elements are rendered as expected', () => {
-      const { history } = renderWithRouterContext(<App />, { route: '/login' });
+      renderWithRouterContext(<App />, { route: '/login' });
 
       const emailInput = screen.getByLabelText(/Login/i);
       const passwordInput = screen.getByLabelText(/Senha/i);
@@ -31,7 +31,7 @@ describe('Login Page', () => {
   describe('Behavior', () => {
     afterEach(() => jest.clearAllMocks());
 
-    it('Enables login button with valid info', () => {
+    it('Enables login button if valid info', () => {
       renderWithRouterContext(<App />, { route: '/login' });
 
       const emailInput = screen.getByLabelText(/Login/i);
@@ -47,7 +47,7 @@ describe('Login Page', () => {
       expect(submitBtn).not.toBeDisabled();
     });
 
-    it('Not enable login button with invalid info', () => {
+    it('Disables login button if invalid info', () => {
       renderWithRouterContext(<App />, { route: '/login' });
 
       const emailInput = screen.getByLabelText(/Login/i);
@@ -63,7 +63,7 @@ describe('Login Page', () => {
       expect(submitBtn).toBeDisabled();
     });
 
-    it('Redirects to customer page with customer valid info', async () => {
+    it('Redirects to customer products page with customer valid info', async () => {
       axios.post.mockResolvedValue({ data: { ...customer } });
       const { history } = renderWithRouterContext(<App />, { route: '/login' });
 
@@ -78,6 +78,22 @@ describe('Login Page', () => {
       await waitForElementToBeRemoved(submitBtn);
 
       expect(history.location.pathname).toBe('/customer/products');
+    });
+
+    it('Render error message if user is not found', async () => {
+      axios.post.mockRejectedValue({ message: 'Not found' });
+      renderWithRouterContext(<App />, { route: '/login' });
+
+      const emailInput = screen.getByLabelText(/Login/i);
+      const passwordInput = screen.getByLabelText(/Senha/i);
+      const submitBtn = screen.getByRole('button', { name: /Login/i });
+
+      userEvent.type(emailInput, VALID_EMAIL);
+      userEvent.type(passwordInput, VALID_PASSWORD);
+      userEvent.click(submitBtn);
+
+      const errorMessage = await screen.findByText(/not found/i);
+      expect(errorMessage).toBeInTheDocument();
     });
   });
 });
