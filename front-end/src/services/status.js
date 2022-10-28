@@ -1,4 +1,0 @@
-const NOT_FOUND_STATUS = 404;
-const ERROR_STATUS = 400;
-
-export { NOT_FOUND_STATUS, ERROR_STATUS };

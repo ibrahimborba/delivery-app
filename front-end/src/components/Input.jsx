@@ -8,6 +8,7 @@ function Input({
     <label htmlFor={ name }>
       { label }
       <input
+        id={ name }
         data-testid={ dataTestId }
         type={ type }
         name={ name }
