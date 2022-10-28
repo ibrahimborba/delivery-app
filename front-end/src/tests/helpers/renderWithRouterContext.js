@@ -4,7 +4,7 @@ import { createMemoryHistory } from 'history';
 import { render } from '@testing-library/react';
 import { UserContext } from '../../context/UserContext';
 
-const renderWithRouterContext = (component, contextValue) => {
+const renderWithRouterContext = (component, contextValue = {}) => {
   const history = createMemoryHistory();
   return ({
     ...render(

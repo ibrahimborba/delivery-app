@@ -16,7 +16,7 @@ const INVALID_PASSWORD = '12345';
 describe('Login Page', () => {
   describe('Render', () => {
     it('checks if Login page elements are rendered as expected', () => {
-      renderWithRouterContext(<App />, {}, { route: '/login' });
+      renderWithRouterContext(<App />);
 
       const emailInput = screen.getByLabelText(/Login/i);
       const passwordInput = screen.getByLabelText(/Senha/i);
@@ -32,7 +32,7 @@ describe('Login Page', () => {
     afterEach(() => jest.clearAllMocks());
 
     it('Enables login button if valid info', () => {
-      renderWithRouterContext(<App />, {}, { route: '/login' });
+      renderWithRouterContext(<App />);
 
       const emailInput = screen.getByLabelText(/Login/i);
       const passwordInput = screen.getByLabelText(/Senha/i);
@@ -48,7 +48,7 @@ describe('Login Page', () => {
     });
 
     it('Disables login button if invalid info', () => {
-      renderWithRouterContext(<App />, {}, { route: '/login' });
+      renderWithRouterContext(<App />);
 
       const emailInput = screen.getByLabelText(/Login/i);
       const passwordInput = screen.getByLabelText(/Senha/i);
@@ -65,7 +65,7 @@ describe('Login Page', () => {
 
     it('Redirects to customer products page with customer valid info', async () => {
       axios.post.mockResolvedValue({ data: { ...customer } });
-      const { history } = renderWithRouterContext(<App />, {}, { route: '/login' });
+      const { history } = renderWithRouterContext(<App />);
 
       const emailInput = screen.getByLabelText(/Login/i);
       const passwordInput = screen.getByLabelText(/Senha/i);
@@ -82,7 +82,7 @@ describe('Login Page', () => {
 
     it('Render error message if user is not found', async () => {
       axios.post.mockRejectedValue({ message: 'Not found' });
-      renderWithRouterContext(<App />, {}, { route: '/login' });
+      renderWithRouterContext(<App />);
 
       const emailInput = screen.getByLabelText(/Login/i);
       const passwordInput = screen.getByLabelText(/Senha/i);
