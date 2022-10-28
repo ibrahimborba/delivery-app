@@ -1,7 +1,7 @@
 const md5 = require('md5');
-const { User } = require('../database/models');
+const { user } = require('../database/models');
 
-const getUser = async (email, password) => User.findOne({
+const getUser = async (email, password) => user.findOne({
   where: {
     email,
     password: md5(password),
