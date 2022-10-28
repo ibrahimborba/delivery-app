@@ -3,7 +3,7 @@ require('dotenv').config();
 const jwt = require('jsonwebtoken');
 const userService = require('../service/user');
 
-const { JWT_SECRET } = process.env;
+const { JWT_SECRET } = process.env || 'secret_key';
 
 const webTokenSetting = { expiresIn: '7d', algorithm: 'HS256' };
 
@@ -12,7 +12,7 @@ const getUser = async (req, res) => {
     const { email, password } = req.body;
 
     const result = await userService.getUser(email, password);
-
+    console.log(result);
     if (!result) {
       return res.status(404).json({ message: 'Not found' });
     }
