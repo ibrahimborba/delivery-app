@@ -1,5 +1,6 @@
 const md5 = require('md5');
 const { user } = require('../database/models');
+const { Op } = require("sequelize");
 
 const getUser = async (email, password) => user.findOne({
   where: {
