@@ -4,7 +4,7 @@ import userEvent from '@testing-library/user-event';
 import * as axios from 'axios';
 import App from '../../App';
 import renderWithRouterContext from '../helpers/renderWithRouterContext';
-import { customer } from '../helpers/mocks/users';
+import { customer } from '../mocks/users';
 
 jest.mock('axios');
 
