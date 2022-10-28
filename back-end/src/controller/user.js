@@ -33,15 +33,21 @@ const getUser = async (req, res) => {
 
 const create = async (req, res) => {
   try {
-    const { email, password, name, role } = req.body;
+    const { email, password, name } = req.body;
 
-    const result = await userService.create({ email, password, name, role });
+    const result = await userService.create({ email, password, name });
 
     if (!result) {
       return res.status(409).json({ message: 'Conflict' });
     }
 
-    return res.status(201).json(result);
+    const token = jwt.sign(
+      { email },
+      JWT_SECRET,
+      webTokenSetting,
+    );
+
+    return res.status(201).json({ ...result, token });
   } catch (error) {
     console.error(error);
 
