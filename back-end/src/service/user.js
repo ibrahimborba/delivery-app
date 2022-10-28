@@ -1,6 +1,6 @@
+const { Op } = require('sequelize');
 const md5 = require('md5');
 const { user } = require('../database/models');
-const { Op } = require("sequelize");
 
 const getUser = async (email, password) => user.findOne({
   where: {
@@ -13,7 +13,7 @@ const getUser = async (email, password) => user.findOne({
 });
 
 const create = async ({ email, password, name }) => {
-  const userAlreadyExist = await user.findAll({ where: {
+  const userAlreadyExist = await user.findOne({ where: {
     [Op.or]: [
       { email },
       { name },
@@ -24,16 +24,16 @@ const create = async ({ email, password, name }) => {
     return null;
   }
 
-  const { id } = await user.create(
+  const result = await user.create(
     {
       email,
       password: md5(password),
       name,
-      role: "customer",
+      role: 'customer',
     },
   );
   
-  return { id, email, name, role: "customer" };
+  return { email, name, role: result.role };
 };
 
 module.exports = {
