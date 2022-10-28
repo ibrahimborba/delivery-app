@@ -12,7 +12,7 @@ const getUser = async (email, password) => user.findOne({
 });
 
 const create = async ({ email, password, name, role }) => {
-  const userAlreadyExist = await user.findOne({ where: { email } });
+  const userAlreadyExist = await user.findOne({ where: { email, name } });
 
   if (userAlreadyExist) {
     return null;
