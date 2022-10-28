@@ -7,6 +7,7 @@ export const UserContext = createContext();
 
 export function UserProvider({ children }) {
   const [loggedUser, setLoggedUser] = useState({
+    name: '',
     email: '',
     token: '',
     role: '',

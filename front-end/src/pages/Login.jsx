@@ -1,11 +1,12 @@
 import React, { useState, useEffect, useContext } from 'react';
-import { Redirect } from 'react-router-dom';
+import { useHistory } from 'react-router-dom';
 import Input from '../components/Input';
 import Button from '../components/Button';
 import { login } from '../services/api';
 import { UserContext } from '../context/UserContext';
 
 function Login() {
+  const history = useHistory();
   const [user, setUser] = useState({ email: '', password: '' });
   const [isDisabled, setIsDisabled] = useState(true);
   const [errorResponse, setErrorResponse] = useState('');
@@ -28,12 +29,11 @@ function Login() {
   const handleSubmit = async (event) => {
     event.preventDefault();
     const response = await login(user);
-    const { email, token, role, message } = response;
-    if (message) {
-      return setErrorResponse(message);
-    }
-    setLoggedUser({ email, token, role });
-    return <Redirect to="/customer/products" />;
+    const { name, email, token, role, message } = response;
+    if (message) return setErrorResponse(message);
+
+    setLoggedUser({ name, email, token, role });
+    history.push('/customer/products');
   };
 
   return (

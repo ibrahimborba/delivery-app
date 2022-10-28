@@ -1,22 +1,27 @@
 import React from 'react';
 import { screen, waitForElementToBeRemoved } from '@testing-library/react';
 import userEvent from '@testing-library/user-event';
-import Login from '../../pages/Login';
+import * as axios from 'axios';
+import App from '../../App';
 import renderWithRouterContext from '../helpers/renderWithRouterContext';
+import { customer } from '../helpers/mocks/users';
 
-const VALID_EMAIL = 'test@test.test';
-const INVALID_EMAIL = 'testtest.test';
+jest.mock('axios');
+
+const VALID_EMAIL = 'user@email.com';
+const INVALID_EMAIL = 'useremailcom';
 const VALID_PASSWORD = '123456';
 const INVALID_PASSWORD = '12345';
 
 describe('Login Page', () => {
   describe('Render', () => {
     it('checks if Login page elements are rendered as expected', () => {
-      renderWithRouterContext(<Login />, {route: '/login'});
+      const { history } = renderWithRouterContext(<App />, { route: '/login' });
+
       const emailInput = screen.getByLabelText(/Login/i);
       const passwordInput = screen.getByLabelText(/Senha/i);
       const submitBtn = screen.getByRole('button', { name: /Login/i });
-  
+
       expect(emailInput).toBeInTheDocument();
       expect(passwordInput).toBeInTheDocument();
       expect(submitBtn).toBeInTheDocument();
@@ -26,8 +31,8 @@ describe('Login Page', () => {
   describe('Behavior', () => {
     afterEach(() => jest.clearAllMocks());
 
-    it('Enables login button wiht valid info', () => {
-      renderWithRouterContext(<Login />);
+    it('Enables login button with valid info', () => {
+      renderWithRouterContext(<App />, { route: '/login' });
 
       const emailInput = screen.getByLabelText(/Login/i);
       const passwordInput = screen.getByLabelText(/Senha/i);
@@ -42,8 +47,8 @@ describe('Login Page', () => {
       expect(submitBtn).not.toBeDisabled();
     });
 
-    it('Not enable login button wiht invalid info', () => {
-      renderWithRouterContext(<Login />);
+    it('Not enable login button with invalid info', () => {
+      renderWithRouterContext(<App />, { route: '/login' });
 
       const emailInput = screen.getByLabelText(/Login/i);
       const passwordInput = screen.getByLabelText(/Senha/i);
@@ -56,6 +61,23 @@ describe('Login Page', () => {
       userEvent.type(passwordInput, INVALID_PASSWORD);
 
       expect(submitBtn).toBeDisabled();
+    });
+
+    it('Redirects to customer page with customer valid info', async () => {
+      axios.post.mockResolvedValue({ data: { ...customer } });
+      const { history } = renderWithRouterContext(<App />, { route: '/login' });
+
+      const emailInput = screen.getByLabelText(/Login/i);
+      const passwordInput = screen.getByLabelText(/Senha/i);
+      const submitBtn = screen.getByRole('button', { name: /Login/i });
+
+      userEvent.type(emailInput, VALID_EMAIL);
+      userEvent.type(passwordInput, VALID_PASSWORD);
+      userEvent.click(submitBtn);
+
+      await waitForElementToBeRemoved(submitBtn);
+
+      expect(history.location.pathname).toBe('/customer/products');
     });
   });
 });
