@@ -29,9 +29,7 @@ const create = async ({ email, password, name }) => {
     ],
   } });
 
-  if (userAlreadyExist) {
-    return null;
-  }
+  if (userAlreadyExist) return null;
 
   const result = await user.create(
     {
@@ -41,8 +39,10 @@ const create = async ({ email, password, name }) => {
       role: 'customer',
     },
   );
+
+  const token = tokenHelper.create({ email: result.email });
   
-  return { email, name, role: result.role };
+  return { email, name, role: result.role, token };
 };
 
 module.exports = {

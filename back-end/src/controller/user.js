@@ -24,9 +24,7 @@ const create = async (req, res) => {
 
     const result = await userService.create({ email, password, name });
 
-    if (!result) {
-      return res.status(409).json({ message: 'Conflict' });
-    }
+    if (!result) return res.status(409).json({ message: 'Conflict' });
 
     return res.status(201).json({ ...result });
   } catch (error) {
