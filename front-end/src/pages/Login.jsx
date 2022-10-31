@@ -3,6 +3,7 @@ import { useHistory } from 'react-router-dom';
 import Input from '../components/Input';
 import Button from '../components/Button';
 import { login } from '../services/api';
+import { saveUser } from '../services/userLocalStg';
 import { UserContext } from '../context/UserContext';
 
 function Login() {
@@ -32,6 +33,7 @@ function Login() {
     const { name, email, token, role, message } = response;
     if (message) return setErrorResponse(message);
 
+    saveUser({ name, email, token, role });
     setLoggedUser({ name, email, token, role });
     history.push('/customer/products');
   };
