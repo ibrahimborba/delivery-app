@@ -1,18 +1,19 @@
 import React, { useEffect, useState } from 'react';
 import HeaderProducts from '../components/HeaderProducts';
 import ProductCard from '../components/ProductCard';
-import { getProducts } from '../services/api';
+// import { getProducts } from '../services/api';
 
 function CustomerProducts() {
-  const [productsList, setProductsList] = useState([]);
+  const [productsList] = useState([]);
 
   useEffect(() => {
-    const getAllProducts = async () => {
+    /*     const getAllProducts = async () => {
       const result = await getProducts();
+      if (!result) return setProductsList([]);
       setProductsList(result);
     };
 
-    getAllProducts();
+    getAllProducts(); */
   }, []);
 
   return (

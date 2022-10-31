@@ -1,9 +1,26 @@
 import React, { useContext } from 'react';
+import { useHistory } from 'react-router-dom';
 import NavButton from './NavButton';
 import { UserContext } from '../context/UserContext';
+import { logoutStg } from '../services/userLocalStg';
 
 function HeaderProducts() {
-  const { loggedUser } = useContext(UserContext);
+  const history = useHistory();
+  const { loggedUser, setLoggedUser } = useContext(UserContext);
+
+  const handleRedirectProducts = () => {
+    history.push('/customer/products');
+  };
+
+  const handleLogout = () => {
+    setLoggedUser({
+      name: '',
+      email: '',
+      token: '',
+      role: '' });
+    logoutStg();
+    history.push('/login');
+  };
 
   return (
     <header>
@@ -13,6 +30,7 @@ function HeaderProducts() {
           type="button"
           name="products"
           text="Produtos"
+          onClick={ handleRedirectProducts }
         />
         <NavButton
           dataTestId="customer_products__element-navbar-link-orders"
@@ -30,6 +48,7 @@ function HeaderProducts() {
           type="button"
           name="logout"
           text="Sair"
+          onClick={ handleLogout }
         />
       </nav>
     </header>
