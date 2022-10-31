@@ -48,13 +48,18 @@ function CustomerProducts() {
     <>
       <HeaderProducts />
       <Button
-        dataTestId="customer_products__checkout-bottom-value"
+        dataTestId="customer_products__button-cart"
         type="button"
         name="orders"
         text={ `Ver Carrinho: R$ ${total}` }
         onClick={ handleRedirectCheckout }
         disabled={ orders.length < 1 }
       />
+      <p
+        data-testid="customer_products__checkout-bottom-value"
+      >
+        { `Total: R$ ${total}` }
+      </p>
       {
         products.map((product) => (
           <ProductCard
