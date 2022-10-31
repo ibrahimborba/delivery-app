@@ -95,7 +95,7 @@ function ProductCard({ id, urlImage, name, price }) {
           label=""
           dataTestId={ `customer_products__input-card-quantity-${id}` }
           type="number"
-          name={ id }
+          name={ id.toString() }
           value={ quantity }
           onChange={ handleChange }
           placeholder="0"
