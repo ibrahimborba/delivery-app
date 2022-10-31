@@ -8,6 +8,7 @@ app.use(cors());
 app.use(express.json());
 
 app.use(routes.user);
+app.use('/customer', routes.sale);
 
 app.get('/coffee', (_req, res) => res.status(418).end());
 
