@@ -5,6 +5,7 @@ import Login from './pages/Login';
 import Register from './pages/Register';
 import CustomerProducts from './pages/CustomerProducts';
 import { UserProvider } from './context/UserContext';
+import { OrdersProvider } from './context/OrdersContext';
 
 function App() {
   return (
@@ -13,7 +14,10 @@ function App() {
         <Route exact path="/" render={ () => <Redirect to="/login" /> } />
         <Route exact path="/login" component={ Login } />
         <Route exact path="/register" component={ Register } />
-        <Route exact path="/customer/products" component={ CustomerProducts } />
+        <OrdersProvider>
+          <Route exact path="/customer/products" component={ CustomerProducts } />
+          <Route exact path="/customer/checkout" component={ CustomerProducts } />
+        </OrdersProvider>
       </Switch>
     </UserProvider>
   );
