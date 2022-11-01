@@ -6,7 +6,7 @@ const { sale, salesProduct, product, user } = require('../database/models');
 const sequelize = new Sequelize(config.development);
 
 const getSales = async () => {
-  const result = await salesProduct.findAll({
+  const result = await sale.findAll({
     include: [{ model: product, as: 'products' }],
   });
 
@@ -14,6 +14,16 @@ const getSales = async () => {
 
     return result;
   };
+
+  const getSalesById = async (id) => {
+    const result = await sale.findByPk(id, {
+      include: [{ model: product, as: 'products' }],
+    });
+  
+      if (!result) return null;
+  
+      return result;
+    };
 
 const createSaleProducts = async ({ products, saleId }, t) => {
   const data = [];
@@ -80,5 +90,6 @@ const create = async ({ sellerId, totalPrice, deliveryAddress,
 
 module.exports = {
   getSales,
+  getSalesById,
   create,
 };
