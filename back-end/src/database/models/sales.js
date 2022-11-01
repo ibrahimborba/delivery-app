@@ -7,7 +7,7 @@ module.exports = (sequelize, DataTypes) => {
     deliveryAddress: DataTypes.STRING(100),
     deliveryNumber: DataTypes.STRING(50),
     saleDate: { type: DataTypes.DATE, defaultValue: DataTypes.NOW },
-    status: DataTypes.STRING(50),
+    status: { type: DataTypes.STRING(50), defaultValue: 'Pendente' },
   },
   {
     underscored: true,

@@ -5,6 +5,7 @@ import Login from './pages/Login';
 import Register from './pages/Register';
 import CustomerProducts from './pages/CustomerProducts';
 import { UserProvider } from './context/UserContext';
+import CustomerCheckout from './pages/CustomerCheckout';
 import { OrdersProvider } from './context/OrdersContext';
 
 function App() {
@@ -16,7 +17,7 @@ function App() {
         <Route exact path="/register" component={ Register } />
         <OrdersProvider>
           <Route exact path="/customer/products" component={ CustomerProducts } />
-          <Route exact path="/customer/checkout" component={ CustomerProducts } />
+          <Route exact path="/customer/checkout" component={ CustomerCheckout } />
         </OrdersProvider>
       </Switch>
     </UserProvider>
