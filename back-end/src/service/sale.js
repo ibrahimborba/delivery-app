@@ -1,15 +1,25 @@
 const Sequelize = require('sequelize');
 const config = require('../database/config/config');
 
-const { sale, salesProduct, user } = require('../database/models');
+const { sale, salesProduct, product, user } = require('../database/models');
 
 const sequelize = new Sequelize(config.development);
+
+const getSales = async () => {
+  const result = await salesProduct.findAll({
+    include: [{ model: product, as: 'products' }],
+  });
+
+    if (!result) return null;
+
+    return result;
+  };
 
 const createSaleProducts = async ({ products, saleId }, t) => {
   const data = [];
 
-  products.forEach((product) =>
-    data.push({ productId: product.id, saleId, quantity: product.quantity }));
+  products.forEach((productSold) =>
+    data.push({ productId: productSold.id, saleId, quantity: productSold.quantity }));
 
   await salesProduct.bulkCreate(
     data,
@@ -69,5 +79,6 @@ const create = async ({ sellerId, totalPrice, deliveryAddress,
 };
 
 module.exports = {
+  getSales,
   create,
 };

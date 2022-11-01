@@ -12,6 +12,21 @@ const create = async (req, res) => {
   return res.status(201).json({ id });
 };
 
+const getSales = async (req, res) => {
+  try {
+    const result = await saleService.getSales();
+
+    if (!result) {
+      return res.status(500).json({ message: 'Internal Server Error' });
+    }
+    return res.status(200).json(result);
+  } catch (error) {
+    console.error(error);
+    return res.status(500).json({ message: 'Internal server error' });
+  }
+};
+
 module.exports = {
   create,
+  getSales,
 };

@@ -7,6 +7,8 @@ const auth = require('../middlewares/auth');
 const route = express.Router();
 
 route.post('/checkout', auth.tokenValidation, saleController.create);
-route.get('/products', productController.getAll);
+route.get('/products', productController.getAll); 
+
+route.get('/sales', saleController.getSales);
 
 module.exports = route;
