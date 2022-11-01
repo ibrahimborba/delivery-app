@@ -6,7 +6,7 @@ module.exports = (sequelize, DataTypes) => {
     urlImage: DataTypes.STRING(200)
   },
   {
-    underscored: true,
+    // underscored: true,
     timestamps: false,
     tableName: 'products'
   });
