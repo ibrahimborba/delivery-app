@@ -35,7 +35,14 @@ function Login() {
 
     saveUser({ name, email, token, role });
     setLoggedUser({ name, email, token, role });
-    history.push('/customer/products');
+
+    switch (role) {
+      case 'customer':
+        return history.push('/customer/products');
+      case 'seller':
+        return history.push('/seller/orders');
+      default: return console.log('Role not found!');
+    }
   };
 
   const handleRedirectRegister = async (event) => {
@@ -46,14 +53,14 @@ function Login() {
   return (
     <div>
       <h1>Login</h1>
-      <form onSubmit={ handleSubmit }>
+      <form onSubmit={handleSubmit}>
         <Input
           label="Login"
           dataTestId="common_login__input-email"
           type="email"
           name="email"
-          value={ user.email }
-          onChange={ handleChange }
+          value={user.email}
+          onChange={handleChange}
           placeholder="Type your e-mail"
         />
         <Input
@@ -61,8 +68,8 @@ function Login() {
           dataTestId="common_login__input-password"
           type="password"
           name="password"
-          value={ user.password }
-          onChange={ handleChange }
+          value={user.password}
+          onChange={handleChange}
           placeholder="Type your password"
         />
         <Button
@@ -70,21 +77,21 @@ function Login() {
           type="submit"
           name="login"
           text="Login"
-          disabled={ isDisabled }
+          disabled={isDisabled}
         />
         <Button
           dataTestId="common_login__button-register"
           type="button"
           name="login"
           text="Ainda não tenho conta"
-          onClick={ handleRedirectRegister }
+          onClick={handleRedirectRegister}
         />
       </form>
       <p
         data-testid="common_login__element-invalid-email"
-        hidden={ !errorResponse }
+        hidden={!errorResponse}
       >
-        { errorResponse }
+        {errorResponse}
       </p>
     </div>
   );

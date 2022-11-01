@@ -3,6 +3,7 @@ import axios from 'axios';
 const LOGIN_ENDPOINT = 'http://localhost:3001/login';
 const REGISTER_ENDPOINT = 'http://localhost:3001/register';
 const PRODUCTS_ENDPOINT = 'http://localhost:3001/products';
+const SELLER_PRODUCTS_ENDPOINT = 'http://localhost:3001/seller/orders';
 
 export async function login({ email, password }) {
   try {
@@ -25,6 +26,15 @@ export async function register({ email, password, name }) {
 export async function getProducts() {
   try {
     const { data } = await axios.get(PRODUCTS_ENDPOINT);
+    return data;
+  } catch (error) {
+    return error;
+  }
+}
+
+export async function getProductsSeller() {
+  try {
+    const { data } = await axios.get(SELLER_PRODUCTS_ENDPOINT);
     return data;
   } catch (error) {
     return error;
