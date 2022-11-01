@@ -12,7 +12,6 @@ function TableDetails({ orderById }) {
           <th>Quantidade</th>
           <th>Valor Unitário</th>
           <th>Sub-total</th>
-          <th>Remover Item</th>
         </tr>
       </thead>
       <tbody>
