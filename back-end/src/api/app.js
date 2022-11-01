@@ -9,7 +9,7 @@ app.use(express.json());
 app.use(express.static('public'));
 
 app.use(routes.user);
-app.use('/customer', routes.sale);
+app.use('/customer', routes.customer);
 app.use(routes.products);
 
 app.get('/coffee', (_req, res) => res.status(418).end());
