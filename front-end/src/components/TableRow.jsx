@@ -6,14 +6,14 @@ import Button from './Button';
 function TableRow({ order, index }) {
   const { orders, setOrders } = useContext(OrdersContext);
 
-  const stringPrice = order.price.toString();
+  const stringPrice = order.price.toFixed(2);
 
   const formatedPrice = stringPrice.replace('.', ',');
 
   const subTotalPrice = () => {
     const subtotal = order.quantity * order.price;
 
-    const stringTotal = subtotal.toString();
+    const stringTotal = subtotal.toFixed(2);
 
     const formatedTotal = stringTotal.replace('.', ',');
 
@@ -27,11 +27,21 @@ function TableRow({ order, index }) {
 
   return (
     <tr>
-      <td>{index}</td>
-      <td>{ order.name }</td>
-      <td>{ order.quantity }</td>
-      <td>{ formatedPrice }</td>
-      <td>{ subTotalPrice() }</td>
+      <td data-testid={ `customer_checkout__element-order-table-item-number-${index}` }>
+        {index + 1}
+      </td>
+      <td data-testid={ `customer_checkout__element-order-table-name-${index}` }>
+        {order.name}
+      </td>
+      <td data-testid={ `customer_checkout__element-order-table-quantity-${index}` }>
+        {order.quantity}
+      </td>
+      <td data-testid={ `customer_checkout__element-order-table-unit-price-${index}` }>
+        {formatedPrice}
+      </td>
+      <td data-testid={ `customer_checkout__element-order-table-sub-total-${index}` }>
+        {subTotalPrice()}
+      </td>
       <td>
         <Button
           dataTestId={ `customer_checkout__element-order-table-remove-${index}` }
@@ -40,7 +50,6 @@ function TableRow({ order, index }) {
           text="-"
           onClick={ handleCartRemove(order.id) }
         />
-
       </td>
     </tr>
   );

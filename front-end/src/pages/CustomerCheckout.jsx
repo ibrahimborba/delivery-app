@@ -33,7 +33,7 @@ function CustomerCheckout() {
   }, [customerInfo]);
 
   const formatTotal = (newTotal) => {
-    const strTotal = newTotal.toFixed(2);
+    const strTotal = Number(newTotal).toFixed(2);
     const formatedTotal = strTotal.replace('.', ',');
     return formatedTotal;
   };
@@ -46,7 +46,7 @@ function CustomerCheckout() {
     }, 0);
 
     setTotal(newTotal);
-  }, []);
+  }, [orders]);
 
   const handleChange = ({ target: { name, value } }) => {
     setCustomerInfo((prevstate) => ({
@@ -76,7 +76,7 @@ function CustomerCheckout() {
         <section>
           <span>Total:</span>
           <span data-testid="customer_checkout__element-order-total-price">
-            {total}
+            {formatTotal(total)}
           </span>
         </section>
       </section>
