@@ -10,7 +10,7 @@ module.exports = (sequelize, DataTypes) => {
     status: { type: DataTypes.STRING(50), defaultValue: 'Pendente' },
   },
   {
-    // underscored: true,
+    underscored: true,
     timestamps: false,
     tableName: 'sales'
   });
