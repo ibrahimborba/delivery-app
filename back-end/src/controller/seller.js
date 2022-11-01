@@ -6,7 +6,7 @@ const getTenProducts = async (_req, res) => {
 
         if (!result) return res.status(404).json({ message: 'Not found' });
 
-        return res.status(200).json({ result });
+        return res.status(200).json( result );
     } catch (error) {
         console.error(error);
 

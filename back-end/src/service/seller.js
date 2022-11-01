@@ -1,25 +1,25 @@
-const { sales } = require('../database/models');
+const { sale } = require('../database/models');
 
 const getTenProducts = async () => {
-    const result = await sales.findAll();
+  const result = await sale.findAll({limit: 10});
   
     if (!result) return null;
   
-    return { result };
+    return  result ;
   };
 
   const getProductById = async (id) => {
-    const response = await sales.findOne({
-      where: { id },
-      attributes: { exclude: ['password'] },
+    const response = await sale.findOne({
+      where: { id },      
     });
   
     return response;
   };
 
   const update = async (id, status) => {
-    await sales.findOne({ status }, { where: { id } });
+    await sale.findOne({ status }, { where: { id } });
   };
+
   module.exports = {
     getTenProducts,
     getProductById,
