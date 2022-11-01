@@ -1,11 +1,18 @@
-import React, { useEffect, useState } from 'react';
+import React, { useContext, useEffect, useState } from 'react';
+import { useHistory } from 'react-router-dom';
 import Button from '../components/Button';
+import HeaderProducts from '../components/HeaderProducts';
 import Input from '../components/Input';
+import TableCheckout from '../components/TableCheckout';
+import { OrdersContext } from '../context/OrdersContext';
 import { checkout, sellers } from '../services/api';
 
 function CustomerCheckout() {
+  const history = useHistory();
+  const { orders } = useContext(OrdersContext);
   const [isDisabled, setIsDisabled] = useState(true);
   const [sellersInfo, setSellersInfo] = useState([]);
+  const [total, setTotal] = useState('0.00');
   const [customerInfo, setCustomerInfo] = useState(
     { sellerId: '', deliveryAddress: '', deliveryNumber: '' },
   );
@@ -25,6 +32,22 @@ function CustomerCheckout() {
     );
   }, [customerInfo]);
 
+  const formatTotal = (newTotal) => {
+    const strTotal = newTotal.toFixed(2);
+    const formatedTotal = strTotal.replace('.', ',');
+    return formatedTotal;
+  };
+
+  useEffect(() => {
+    const newTotal = orders.reduce((acc, order) => {
+      const floatPrice = parseFloat(order.price);
+      acc += (floatPrice * order.quantity);
+      return acc;
+    }, 0);
+
+    setTotal(newTotal);
+  }, []);
+
   const handleChange = ({ target: { name, value } }) => {
     setCustomerInfo((prevstate) => ({
       ...prevstate,
@@ -35,35 +58,37 @@ function CustomerCheckout() {
   const handleSubmit = async (event) => {
     event.preventDefault();
 
-    const response = await checkout({ ...customerInfo });
+    console.log(orders);
+
+    const result = await checkout(
+      { ...customerInfo, totalPrice: total, products: orders },
+    );
+
+    history.push(`/customer/orders/${result.id}`);
   };
 
   return (
     <section>
+      <HeaderProducts />
       <h1>Finalizar pedido</h1>
       <section>
-        {/* <table>
-          <thead>
-            <tr>
-              <th>Item</th>
-              <th>Descrição</th>
-              <th>Quantidade</th>
-              <th>Valor Unitário</th>
-              <th>Sub-totla</th>
-              <th>Remover Item</th>
-            </tr>
-          </thead>
-          <tbody />
-        </table> */}
+        <TableCheckout />
         <section>
           <span>Total:</span>
-          <span data-testid="customer_checkout__element-order-total-price">{ 28 }</span>
+          <span data-testid="customer_checkout__element-order-total-price">
+            {total}
+          </span>
         </section>
       </section>
       <section>
         <h2>Detalhes e Endereço para Entrega</h2>
         <form onSubmit={ handleSubmit }>
-          <select name="sellerId" data-testid="customer_checkout__select-seller">
+          <select
+            name="sellerId"
+            data-testid="customer_checkout__select-seller"
+            onChange={ handleChange }
+            value={ customerInfo.sellerId }
+          >
             {sellersInfo.map((seller) => (
               <option value={ seller.id } key={ seller.id }>
                 {seller.name}

@@ -1,10 +1,11 @@
 import axios from 'axios';
+import { getToken } from './userLocalStg';
 
 const LOGIN_ENDPOINT = 'http://localhost:3001/login';
 const REGISTER_ENDPOINT = 'http://localhost:3001/register';
 const CHECKOUT_ENDPOINT = 'http://localhost:3001/customer/checkout';
 const SELLERS_ENDPOINT = 'http://localhost:3001/seller';
-const PRODUCTS_ENDPOINT = 'http://localhost:3001/products';
+const PRODUCTS_ENDPOINT = 'http://localhost:3001/customer/products';
 
 export async function login({ email, password }) {
   try {
@@ -25,15 +26,21 @@ export async function register({ email, password, name }) {
 }
 
 export async function checkout(
-  { productIds, sellerId, totalPrice, deliveryAddress, deliveryNumber },
+  { products, sellerId, totalPrice, deliveryAddress, deliveryNumber },
 ) {
   try {
     const { data } = await axios.post(
       CHECKOUT_ENDPOINT,
-      { productIds, sellerId, totalPrice, deliveryAddress, deliveryNumber },
+      {
+        products,
+        sellerId: 2,
+        totalPrice,
+        deliveryAddress,
+        deliveryNumber: Number(deliveryNumber),
+      },
       {
         headers: {
-          authorization: localStorage.getItem('user.token'),
+          authorization: getToken(),
         },
       },
     );
@@ -46,7 +53,7 @@ export async function checkout(
 
 export async function sellers() {
   try {
-    const { data } = axios.get(SELLERS_ENDPOINT);
+    const { data } = await axios.get(SELLERS_ENDPOINT);
 
     return data;
   } catch (error) {

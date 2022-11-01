@@ -17,3 +17,9 @@ export const getUser = () => {
 export const saveUser = (user) => localStorage.setItem(USER_KEY, JSON.stringify(user));
 
 export const logoutStg = () => localStorage.clear();
+
+export const getToken = () => {
+  const { token } = getUser();
+
+  return token;
+};
