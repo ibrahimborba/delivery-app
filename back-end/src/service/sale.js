@@ -8,7 +8,8 @@ const sequelize = new Sequelize(config.development);
 const createSaleProducts = async ({ products, saleId }, t) => {
   const data = [];
 
-  products.forEach(({ productId, quantity }) => data.push({ productId, saleId, quantity }));
+  products.forEach((product) =>
+    data.push({ productId: product.id, saleId, quantity: product.quantity }));
 
   await salesProduct.bulkCreate(
     data,
