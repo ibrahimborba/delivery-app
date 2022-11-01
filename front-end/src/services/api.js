@@ -33,7 +33,7 @@ export async function checkout(
       CHECKOUT_ENDPOINT,
       {
         products,
-        sellerId: 2,
+        sellerId: Number(sellerId),
         totalPrice,
         deliveryAddress,
         deliveryNumber: Number(deliveryNumber),

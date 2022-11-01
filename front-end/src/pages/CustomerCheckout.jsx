@@ -20,7 +20,12 @@ function CustomerCheckout() {
   useEffect(() => {
     async function sellersData() {
       const sellersResult = await sellers();
+      console.log(sellersResult);
       setSellersInfo(sellersResult);
+      setCustomerInfo((prevstate) => ({
+        ...prevstate,
+        sellerId: sellersResult[0].id,
+      }));
     }
     sellersData();
   }, []);
@@ -53,18 +58,17 @@ function CustomerCheckout() {
       ...prevstate,
       [name]: value,
     }));
+    console.log(customerInfo);
   };
 
   const handleSubmit = async (event) => {
     event.preventDefault();
 
-    console.log(orders);
-
     const result = await checkout(
       { ...customerInfo, totalPrice: total, products: orders },
     );
 
-    history.push(`/customer/orders/${result.id}`);
+    history.push(`/customer/orders/${result.id.toString()}`);
   };
 
   return (
