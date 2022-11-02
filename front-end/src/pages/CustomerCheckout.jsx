@@ -68,7 +68,7 @@ function CustomerCheckout() {
       { ...customerInfo, totalPrice: total, products: orders },
     );
 
-    history.push(`/customer/orders/${result.id.toString()}`);
+    history.push(`/customer/orders/${result.id}`);
   };
 
   return (
