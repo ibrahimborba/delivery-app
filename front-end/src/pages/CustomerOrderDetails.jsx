@@ -36,20 +36,18 @@ export default function CustomerOrderDetails() {
     }
   };
 
-  console.log(order);
-
   return (
     <>
       <Header />
       <h1>Customer Order Details</h1>
-      <span data-testid={ `${dataTestId}total-price` }>
-        {formatTotal(order.totalPrice)}
+      <span data-testid={ `${dataTestId}details-label-order-id` }>
+        {order.id}
+      </span>
+      <span data-testid={ `${dataTestId}details-label-seller-name` }>
+        {order.seller.name}
       </span>
       <span data-testid={ `${dataTestId}details-label-delivery-status${order.id}` }>
         {order.status}
-      </span>
-      <span data-testid={ `${dataTestId}details-label-order-id` }>
-        {order.id}
       </span>
       <span data-testid={ `${dataTestId}details-label-order-date` }>
         {formatDate(order.saleDate)}
@@ -60,6 +58,9 @@ export default function CustomerOrderDetails() {
         name="delivered"
         text="Marcar Como Entregue"
       />
+      <p data-testid={ `${dataTestId}total-price` }>
+        {formatTotal(order.totalPrice)}
+      </p>
       <TableDetails orderById={ order.products } />
     </>
   );
