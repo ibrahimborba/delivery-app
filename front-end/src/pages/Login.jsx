@@ -3,7 +3,7 @@ import { useHistory } from 'react-router-dom';
 import Input from '../components/Input';
 import Button from '../components/Button';
 import { login } from '../services/api';
-import { saveUser } from '../services/userLocalStg';
+import { saveUser, getUser } from '../services/userLocalStg';
 import { UserContext } from '../context/UserContext';
 
 function Login() {
@@ -12,6 +12,20 @@ function Login() {
   const [isDisabled, setIsDisabled] = useState(true);
   const [errorResponse, setErrorResponse] = useState('');
   const { setLoggedUser } = useContext(UserContext);
+
+  useEffect(() => {
+    const loggedUser = getUser();
+    if (!loggedUser) return;
+
+    const { role } = loggedUser;
+    switch (role) {
+    case 'customer':
+      return history.push('/customer/products');
+    case 'seller':
+      return history.push('/seller/orders');
+    default: return console.log('Role not found!');
+    }
+  }, []);
 
   useEffect(() => {
     const MIN_PASS_LENGTH = 6;
@@ -35,7 +49,13 @@ function Login() {
 
     saveUser({ name, email, token, role });
     setLoggedUser({ name, email, token, role });
-    history.push('/customer/products');
+    switch (role) {
+    case 'customer':
+      return history.push('/customer/products');
+    case 'seller':
+      return history.push('/seller/orders');
+    default: return console.log('Role not found!');
+    }
   };
 
   const handleRedirectRegister = async (event) => {
