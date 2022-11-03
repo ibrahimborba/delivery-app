@@ -1,10 +1,23 @@
 import React from 'react';
 import PropTypes from 'prop-types';
+import { useHistory } from 'react-router-dom';
+import Button from './Button';
 
 function SellerOrderCard({ id, status, saleDate, totalPrice, deliveryAddress }) {
   // const formatedDate =  date.replace('T', ' ');
   // const formatedPrice =  price.replace('.', ',');
+  const history = useHistory();
 
+  const handleClick = (event) => {
+    event.preventDefault();
+
+    // const result = await checkout(
+    //   { id, status, saleDate, totalPrice, deliveryAddress },
+    // );
+
+    history.push(`/seller/orders/${id}`);
+  };
+  console.log(id);
   return (
     <div>
       <p
@@ -32,15 +45,23 @@ function SellerOrderCard({ id, status, saleDate, totalPrice, deliveryAddress }) 
       >
         {deliveryAddress}
       </p>
+      <Button
+        data-testid={ `seller_orders__element-order-id-${id}` }
+        type="button"
+        name="pedido"
+        text="detalhes"
+        onClick={ handleClick }
+      />
     </div>
   );
 }
 
-SellerOrderCard.PropTypes = {
+SellerOrderCard.propTypes = {
   id: PropTypes.number.isRequired,
   status: PropTypes.string.isRequired,
   saleDate: PropTypes.string.isRequired,
   totalPrice: PropTypes.string.isRequired,
+  deliveryAddress: PropTypes.string.isRequired,
 };
 
 export default SellerOrderCard;

@@ -10,14 +10,14 @@ function CustomerProducts() {
   useEffect(() => {
     const getAllProducts = async () => {
       const result = await getProductsSeller();
-      //   console.log(result)
+      console.log(result);
       if (!result) return setOrders([]);
       setOrders(result);
     };
 
     getAllProducts();
-  }, [orders]);
-
+  }, []);
+  console.log(orders);
   return (
     <>
       <HeaderProducts />

@@ -1,11 +1,11 @@
 const { sale } = require('../database/models');
 
 const getTenProducts = async () => {
-  const result = await sale.findAll({limit: 10});
+  const result = await sale.findAll();
   
     if (!result) return null;
   
-    return  result ;
+    return result;
   };
 
   const getProductById = async (id) => {

@@ -4,6 +4,8 @@ const products = require('./products');
 const customer = require('./customer');
 
 module.exports = {
-  user, seller,products,
+  user,
+seller,
+products,
   customer, 
 };

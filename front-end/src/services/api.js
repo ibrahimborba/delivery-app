@@ -75,11 +75,11 @@ export async function getProducts() {
 export async function getProductsSeller() {
   try {
     const { data } = await axios.get(SELLER_PRODUCTS_ENDPOINT);
+    return data;
+  } catch (error) {
+    return error;
   }
-    catch (error) {
-      return error;
-    }
-  }
+}
 export async function getSalesById(id) {
   try {
     const { data } = await axios.get(`${SALEBYID}${id}`);
