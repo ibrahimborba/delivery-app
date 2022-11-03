@@ -2,23 +2,26 @@ import React, { useState, useEffect, useContext } from 'react';
 import { useHistory } from 'react-router-dom';
 import Input from '../components/Input';
 import Button from '../components/Button';
-import { login } from '../services/api';
-import { saveUser } from '../services/userLocalStg';
+import { register } from '../services/api';
 import { UserContext } from '../context/UserContext';
 
-function Login() {
+function Register() {
   const history = useHistory();
-  const [user, setUser] = useState({ email: '', password: '' });
+  const [user, setUser] = useState({ email: '', password: '', name: '' });
   const [isDisabled, setIsDisabled] = useState(true);
   const [errorResponse, setErrorResponse] = useState('');
   const { setLoggedUser } = useContext(UserContext);
 
   useEffect(() => {
     const MIN_PASS_LENGTH = 6;
+    const MIN_NAME_LENGTH = 12;
     const emailTest = /^\w+([-+.']\w+)*@\w+([-.]\w+)*\.\w+([-.]\w+)*$/;
-    setIsDisabled(!(emailTest.test(user.email)
-      && user.password.length >= MIN_PASS_LENGTH));
-  }, [user.email, user.password]);
+    setIsDisabled(
+      !(emailTest.test(user.email)
+      && user.password.length >= MIN_PASS_LENGTH
+      && user.name.length >= MIN_NAME_LENGTH),
+    );
+  }, [user.email, user.password, user.name]);
 
   const handleChange = ({ target: { name, value } }) => {
     setUser((prevstate) => ({
@@ -29,34 +32,30 @@ function Login() {
 
   const handleSubmit = async (event) => {
     event.preventDefault();
-    const response = await login(user);
+    const response = await register(user);
     const { name, email, token, role, message } = response;
     if (message) return setErrorResponse(message);
 
-    saveUser({ name, email, token, role });
     setLoggedUser({ name, email, token, role });
-
-    switch (role) {
-    case 'customer':
-      return history.push('/customer/products');
-    case 'seller':
-      return history.push('/seller/orders');
-    default: return console.log('Role not found!');
-    }
-  };
-
-  const handleRedirectRegister = async (event) => {
-    event.preventDefault();
-    history.push('/register');
+    history.push('/customer/products');
   };
 
   return (
     <div>
-      <h1>Login</h1>
+      <h1>Register</h1>
       <form onSubmit={ handleSubmit }>
         <Input
-          label="Login"
-          dataTestId="common_login__input-email"
+          label="Nome"
+          dataTestId="common_register__input-name"
+          type="name"
+          name="name"
+          value={ user.name }
+          onChange={ handleChange }
+          placeholder="Type your name"
+        />
+        <Input
+          label="Email"
+          dataTestId="common_register__input-email"
           type="email"
           name="email"
           value={ user.email }
@@ -65,7 +64,7 @@ function Login() {
         />
         <Input
           label="Senha"
-          dataTestId="common_login__input-password"
+          dataTestId="common_register__input-password"
           type="password"
           name="password"
           value={ user.password }
@@ -73,28 +72,21 @@ function Login() {
           placeholder="Type your password"
         />
         <Button
-          dataTestId="common_login__button-login"
+          dataTestId="common_register__button-register"
           type="submit"
           name="login"
-          text="Login"
+          text="Cadastrar"
           disabled={ isDisabled }
-        />
-        <Button
-          dataTestId="common_login__button-register"
-          type="button"
-          name="login"
-          text="Ainda não tenho conta"
-          onClick={ handleRedirectRegister }
         />
       </form>
       <p
-        data-testid="common_login__element-invalid-email"
+        data-testid="common_register__element-invalid_register"
         hidden={ !errorResponse }
       >
-        {errorResponse}
+        { errorResponse }
       </p>
     </div>
   );
 }
 
-export default Login;
+export default Register;
