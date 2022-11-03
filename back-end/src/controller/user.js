@@ -2,6 +2,8 @@ require('dotenv').config();
 
 const userService = require('../service/user');
 
+const INTERNAL_SERVER_ERROR = 'Internal Server Error';
+
 const getUser = async (req, res) => {
   try {
     const { email, password } = req.body;
@@ -14,7 +16,7 @@ const getUser = async (req, res) => {
   } catch (error) {
     console.error(error);
 
-    return res.status(500).json({ message: 'Internal server error' });
+    return res.status(500).json({ message: INTERNAL_SERVER_ERROR });
   }
 };
 
@@ -30,11 +32,24 @@ const create = async (req, res) => {
   } catch (error) {
     console.error(error);
 
-    return res.status(500).json({ message: 'Internal server error' });
+    return res.status(500).json({ message: INTERNAL_SERVER_ERROR });
+  }
+};
+
+const getSellers = async (req, res) => {
+  try {
+    const result = await userService.getSellers();
+
+    return res.status(200).json(result);
+  } catch (error) {
+    console.error(error);
+
+    return res.status(500).json({ message: INTERNAL_SERVER_ERROR });
   }
 };
 
 module.exports = {
   getUser,
   create,
+  getSellers,
 };

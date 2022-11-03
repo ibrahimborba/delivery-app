@@ -10,6 +10,7 @@ app.use(express.static('public'));
 
 app.use(routes.user);
 app.use(routes.seller);
+app.use('/customer', routes.customer);
 app.use(routes.products);
 
 app.get('/coffee', (_req, res) => res.status(418).end());

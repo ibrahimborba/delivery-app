@@ -14,6 +14,7 @@ module.exports = {
         onUpdate: 'CASCADE',
         onDelete: 'CASCADE',
         foreignKey: true,
+        field: 'user_id',
         references: {
           model: 'users',
           key: 'id',
@@ -26,6 +27,7 @@ module.exports = {
         onUpdate: 'CASCADE',
         onDelete: 'CASCADE',
         foreignKey: true,
+        field: 'seller_id',
         references: {
           model: 'users',
           key: 'id',
