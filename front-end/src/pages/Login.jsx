@@ -35,7 +35,14 @@ function Login() {
 
     saveUser({ name, email, token, role });
     setLoggedUser({ name, email, token, role });
-    history.push('/customer/products');
+
+    switch (role) {
+    case 'customer':
+      return history.push('/customer/products');
+    case 'seller':
+      return history.push('/seller/orders');
+    default: return console.log('Role not found!');
+    }
   };
 
   const handleRedirectRegister = async (event) => {
@@ -84,7 +91,7 @@ function Login() {
         data-testid="common_login__element-invalid-email"
         hidden={ !errorResponse }
       >
-        { errorResponse }
+        {errorResponse}
       </p>
     </div>
   );
