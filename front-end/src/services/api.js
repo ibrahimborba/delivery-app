@@ -7,6 +7,7 @@ const SELLER_PRODUCTS_ENDPOINT = 'http://localhost:3001/seller/orders';
 const CHECKOUT_ENDPOINT = 'http://localhost:3001/customer/checkout';
 const SELLERS_ENDPOINT = 'http://localhost:3001/seller';
 const PRODUCTS_ENDPOINT = 'http://localhost:3001/customer/products';
+const SALEBYID = 'http://localhost:3001/customer/sales/';
 
 export async function login({ email, password }) {
   try {
@@ -74,6 +75,14 @@ export async function getProducts() {
 export async function getProductsSeller() {
   try {
     const { data } = await axios.get(SELLER_PRODUCTS_ENDPOINT);
+  }
+    catch (error) {
+      return error;
+    }
+  }
+export async function getSalesById(id) {
+  try {
+    const { data } = await axios.get(`${SALEBYID}${id}`);
     return data;
   } catch (error) {
     return error;

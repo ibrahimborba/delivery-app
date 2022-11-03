@@ -8,6 +8,7 @@ import { UserProvider } from './context/UserContext';
 import CustomerCheckout from './pages/CustomerCheckout';
 import { OrdersProvider } from './context/OrdersContext';
 import Seller from './pages/Seller';
+import CustomerOrderDetails from './pages/CustomerOrderDetails';
 
 function App() {
   return (
@@ -20,6 +21,7 @@ function App() {
           <Route exact path="/customer/products" component={ CustomerProducts } />          
           <Route exact path="/seller/orders" component={ Seller } />
           <Route exact path="/customer/checkout" component={ CustomerCheckout } />
+          <Route exact path="/customer/orders/:id" component={ CustomerOrderDetails } />
         </OrdersProvider>
       </Switch>
     </UserProvider>
