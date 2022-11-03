@@ -8,9 +8,9 @@ function HeaderProducts() {
   const history = useHistory();
   const { loggedUser, setLoggedUser } = useContext(UserContext);
 
-  const handleRedirectProducts = () => {
+  /* const handleRedirectProducts = () => {
     history.push('/customer/products');
-  };
+  }; */
 
   const handleLogout = () => {
     setLoggedUser({
@@ -24,7 +24,7 @@ function HeaderProducts() {
 
   return (
     <header>
-      <nav>        
+      <nav>
         <NavButton
           dataTestId="customer_products__element-navbar-link-orders"
           type="button"
