@@ -7,7 +7,7 @@ module.exports = (sequelize, DataTypes) => {
     deliveryAddress: DataTypes.STRING(100),
     deliveryNumber: DataTypes.STRING(50),
     saleDate: { type: DataTypes.DATE, defaultValue: DataTypes.NOW },
-    status: DataTypes.STRING(50),
+    status: { type: DataTypes.STRING(50), defaultValue: 'Pendente' },
   },
   {
     timestamps: false,
@@ -15,14 +15,8 @@ module.exports = (sequelize, DataTypes) => {
   });
 
   sale.associate = (models) => {
-    sale.belongsTo(models.user,
-      { foreignKey: 'userId', as: 'user' },
-      { foreignKey: 'sellerId', as: 'user' });
-  };
-
-  sale.associate = (models) => {
-    sale.hasMany(models.salesProduct,
-      { foreignKey: 'saleId', as: 'saleProduct' });
+    sale.belongsTo(models.user, { foreignKey: 'userId', as: 'customer' });
+    sale.belongsTo(models.user, { foreignKey: 'sellerId', as: 'seller' });
   };
 
   return sale;

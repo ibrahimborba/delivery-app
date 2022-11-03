@@ -104,7 +104,7 @@ function Login() {
         data-testid="common_login__element-invalid-email"
         hidden={ !errorResponse }
       >
-        { errorResponse }
+        {errorResponse}
       </p>
     </div>
   );
