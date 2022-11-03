@@ -6,7 +6,7 @@ import { getSalesById } from '../services/api';
 import Button from '../components/Button';
 
 export default function CustomerOrderDetails() {
-  const [order, setOrder] = useState({ products: [] });
+  const [order, setOrder] = useState({ products: [], seller: { name: '' } });
   const { id } = useParams();
   const dataTestId = 'customer_order_details__element-order-';
 
@@ -57,6 +57,7 @@ export default function CustomerOrderDetails() {
         type="button"
         name="delivered"
         text="Marcar Como Entregue"
+        disabled
       />
       <p data-testid={ `${dataTestId}total-price` }>
         {formatTotal(order.totalPrice)}
