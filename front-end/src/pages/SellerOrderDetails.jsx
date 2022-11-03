@@ -1,14 +1,14 @@
 import React, { useState, useEffect } from 'react';
 import { useParams } from 'react-router-dom';
 import Header from '../components/HeaderProducts';
-import TableDetails from '../components/TableDetails';
+import TableDetailsSeller from '../components/TableDetailsSeller';
 import { getSalesById } from '../services/api';
 import Button from '../components/Button';
 
 export default function SellerOrderDetails() {
   const [order, setOrder] = useState({ products: [], seller: { name: '' } });
   const { id } = useParams();
-  const dataTestId = 'customer_order_details__element-order-';
+  const dataTestId = 'seller_order_details__element-order-';
 
   useEffect(() => {
     const getOrder = async () => {
@@ -39,30 +39,34 @@ export default function SellerOrderDetails() {
   return (
     <>
       <Header />
-      <h1>Customer Order Details</h1>
+      <h1>Seller Order Details</h1>
       <span data-testid={ `${dataTestId}details-label-order-id` }>
         {order.id}
       </span>
-      <span data-testid={ `${dataTestId}details-label-seller-name` }>
-        {order.seller.name}
-      </span>
-      <span data-testid={ `${dataTestId}details-label-delivery-status${order.id}` }>
+      <span data-testid={ `${dataTestId}details-label-delivery-status` }>
         {order.status}
       </span>
       <span data-testid={ `${dataTestId}details-label-order-date` }>
         {formatDate(order.saleDate)}
       </span>
       <Button
-        dataTestId="customer_order_details__button-delivery-check"
+        dataTestId="seller_order_details__button-preparing-check"
+        type="button"
+        name="preparing"
+        text="Preparar pedido"
+        disabled
+      />
+      <Button
+        dataTestId="seller_order_details__button-dispatch-check"
         type="button"
         name="delivered"
-        text="Marcar Como Entregue"
+        text="Saiu para entrega"
         disabled
       />
       <p data-testid={ `${dataTestId}total-price` }>
         {formatTotal(order.totalPrice)}
       </p>
-      <TableDetails orderById={ order.products } />
+      <TableDetailsSeller orderById={ order.products } />
     </>
   );
 }
