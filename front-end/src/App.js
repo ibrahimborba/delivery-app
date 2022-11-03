@@ -4,11 +4,12 @@ import { Switch, Route, Redirect } from 'react-router-dom';
 import Login from './pages/Login';
 import Register from './pages/Register';
 import CustomerProducts from './pages/CustomerProducts';
-import { UserProvider } from './context/UserContext';
 import CustomerCheckout from './pages/CustomerCheckout';
-import { OrdersProvider } from './context/OrdersContext';
 import Seller from './pages/Seller';
 import CustomerOrderDetails from './pages/CustomerOrderDetails';
+import SellerOrderDetails from './pages/SellerOrderDetails';
+import { UserProvider } from './context/UserContext';
+import { OrdersProvider } from './context/OrdersContext';
 
 function App() {
   return (
@@ -22,7 +23,7 @@ function App() {
           <Route exact path="/seller/orders" component={ Seller } />
           <Route exact path="/customer/checkout" component={ CustomerCheckout } />
           <Route exact path="/customer/orders/:id" component={ CustomerOrderDetails } />
-          <Route exact path="/seller/orders/:id" component={ CustomerOrderDetails } />
+          <Route exact path="/seller/orders/:id" component={ SellerOrderDetails } />
         </OrdersProvider>
       </Switch>
     </UserProvider>
