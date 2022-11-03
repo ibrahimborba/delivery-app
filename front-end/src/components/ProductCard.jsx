@@ -1,4 +1,4 @@
-import React, { useContext, useState } from 'react';
+import React, { useContext, useEffect, useState } from 'react';
 import PropTypes from 'prop-types';
 import Button from './Button';
 import { OrdersContext } from '../context/OrdersContext';
@@ -6,64 +6,50 @@ import Input from './Input';
 
 function ProductCard({ id, urlImage, name, price }) {
   const { orders, setOrders } = useContext(OrdersContext);
+  const [productId] = useState(id);
   const [quantity, setQuantity] = useState(0);
 
   const floatPrice = parseFloat(price);
 
   const formatedPrice = price.replace('.', ',');
 
-  const addOrders = (productId) => {
+  useEffect(() => {
+    let newOrders = [];
+
     if (orders.some((order) => order.id === productId)) {
-      const sumOrderQuant = orders.map((order) => {
+      newOrders = orders.map((order) => {
         if (order.id === productId) {
-          setQuantity(order.quantity + 1);
-          return { ...order, quantity: order.quantity + 1 };
+          return { ...order, quantity };
         }
         return order;
       });
-      return sumOrderQuant;
     }
 
-    const newOrders = [...orders, { id, urlImage, name, price: floatPrice, quantity: 1 }];
-    setQuantity(1);
-    return newOrders;
-  };
-
-  const removeOrders = (productId) => {
-    if (orders.some((order) => (order.id === productId && order.quantity > 1))) {
-      const subOrderQuant = orders.map((order) => {
-        if (order.id === productId) {
-          setQuantity(order.quantity - 1);
-          return { ...order, quantity: order.quantity - 1 };
-        }
-        return order;
-      });
-      return subOrderQuant;
+    if (orders.some((order) => order.id === productId) && quantity === 0) {
+      newOrders = orders.filter((order) => order.id !== productId);
     }
 
-    const filteredOrders = orders.filter((order) => order.id !== productId);
-    setQuantity(0);
-    return filteredOrders;
+    if (!orders.some((order) => order.id === productId) && quantity === 1) {
+      newOrders = [...orders, { id, urlImage, name, price: floatPrice, quantity }];
+    }
+
+    setOrders(newOrders);
+  }, [quantity]);
+
+  const handleCartAdd = () => {
+    setQuantity((prevState) => prevState + 1);
   };
 
-  const handleCartAdd = (productId) => () => {
-    const newOrders = addOrders(productId);
-    setOrders(newOrders);
-  };
-
-  const handleCartRemove = (productId) => () => {
-    const newOrders = removeOrders(productId);
-    setOrders(newOrders);
+  const handleCartRemove = () => {
+    setQuantity((prevState) => {
+      if (prevState > 0) return prevState - 1;
+      return 0;
+    });
   };
 
   const handleChange = ({ target }) => {
-    const productId = parseInt(target.name, 10);
-    if (target.value < quantity) {
-      const newOrders = removeOrders(productId);
-      return setOrders(newOrders);
-    }
-    const newOrders = addOrders(productId);
-    return setOrders(newOrders);
+    const newQuantity = parseInt(target.value, 10);
+    setQuantity(newQuantity);
   };
 
   return (
@@ -89,7 +75,7 @@ function ProductCard({ id, urlImage, name, price }) {
           type="button"
           name="remove"
           text="-"
-          onClick={ handleCartRemove(id) }
+          onClick={ handleCartRemove }
         />
         <Input
           label=""
@@ -105,7 +91,7 @@ function ProductCard({ id, urlImage, name, price }) {
           type="button"
           name="add"
           text="+"
-          onClick={ handleCartAdd(id) }
+          onClick={ handleCartAdd }
         />
       </div>
     </div>

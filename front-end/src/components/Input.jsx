@@ -16,6 +16,7 @@ function Input({
         onChange={ onChange }
         checked={ checked }
         placeholder={ placeholder }
+        min="0"
       />
     </label>
   );
