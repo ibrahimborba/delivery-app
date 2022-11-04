@@ -95,6 +95,11 @@ export async function adminRegister({ name, email, password, role }) {
     const { data } = await axios.post(
       ADMIN_REGISTER_ENDPOINT,
       { name, email, password, role },
+      {
+        headers: {
+          authorization: getToken(),
+        },
+      },
     );
 
     return data;
