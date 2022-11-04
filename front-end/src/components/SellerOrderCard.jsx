@@ -1,29 +1,27 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import { useHistory } from 'react-router-dom';
-import Button from './Button';
 
 function SellerOrderCard({ id, status, saleDate, totalPrice, deliveryAddress }) {
-  // const formatedDate =  date.replace('T', ' ');
-  // const formatedPrice =  price.replace('.', ',');
   const history = useHistory();
 
-  const handleClick = (event) => {
-    event.preventDefault();
-
-    // const result = await checkout(
-    //   { id, status, saleDate, totalPrice, deliveryAddress },
-    // );
-
-    history.push(`/seller/orders/${id}`);
+  const handlePushPath = (orderId) => (event) => {
+    if (event.key === 'Enter' || event.type === 'click') {
+      history.push(`/seller/orders/${orderId}`);
+    }
   };
-  console.log(id);
+
   return (
-    <div>
+    <div
+      tabIndex={ 0 }
+      role="button"
+      onClick={ handlePushPath(id) }
+      onKeyDown={ handlePushPath(id) }
+    >
       <p
         data-testid={ `seller_orders__element-order-id-${id}` }
       >
-        {`Pedido ${id}`}
+        { `Pedido ${id}` }
       </p>
       <p
         data-testid={ `seller_orders__element-delivery-status-${id}` }
@@ -45,13 +43,6 @@ function SellerOrderCard({ id, status, saleDate, totalPrice, deliveryAddress }) 
       >
         {deliveryAddress}
       </p>
-      <Button
-        data-testid={ `seller_orders__element-order-id-${id}` }
-        type="button"
-        name="pedido"
-        text="detalhes"
-        onClick={ handleClick }
-      />
     </div>
   );
 }
