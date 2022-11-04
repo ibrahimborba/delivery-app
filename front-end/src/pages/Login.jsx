@@ -3,7 +3,7 @@ import { useHistory } from 'react-router-dom';
 import Input from '../components/Input';
 import Button from '../components/Button';
 import { login } from '../services/api';
-import { saveUser, getUser } from '../services/userLocalStg';
+import { saveUser } from '../services/userLocalStg';
 import { UserContext } from '../context/UserContext';
 
 function Login() {
@@ -14,7 +14,7 @@ function Login() {
   const { setLoggedUser } = useContext(UserContext);
 
   useEffect(() => {
-    const loggedUser = getUser();
+    const loggedUser = localStorage.getItem('user');
     if (!loggedUser) return;
 
     const { role } = loggedUser;
