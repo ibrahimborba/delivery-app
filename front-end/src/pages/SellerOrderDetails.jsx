@@ -54,7 +54,6 @@ export default function SellerOrderDetails() {
         type="button"
         name="preparing"
         text="Preparar pedido"
-        disabled
       />
       <Button
         dataTestId="seller_order_details__button-dispatch-check"
