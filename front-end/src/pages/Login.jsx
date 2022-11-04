@@ -3,7 +3,7 @@ import { useHistory } from 'react-router-dom';
 import Input from '../components/Input';
 import Button from '../components/Button';
 import { login } from '../services/api';
-import { saveUser, getUser } from '../services/userLocalStg';
+import { saveUser } from '../services/userLocalStg';
 import { UserContext } from '../context/UserContext';
 
 function Login() {
@@ -13,17 +13,19 @@ function Login() {
   const [errorResponse, setErrorResponse] = useState('');
   const { setLoggedUser } = useContext(UserContext);
 
-  useEffect(() => {
-    const loggedUser = getUser();
-    if (!loggedUser) return;
+  const USER_KEY = 'user';
+  const loggedUser = JSON.parse(localStorage.getItem(USER_KEY));
 
-    const { role } = loggedUser;
-    switch (role) {
-    case 'customer':
-      return history.push('/customer/products');
-    case 'seller':
-      return history.push('/seller/orders');
-    default: return console.log('Role not found!');
+  useEffect(() => {
+    if (loggedUser) {
+      const { role } = loggedUser;
+      switch (role) {
+      case 'customer':
+        return history.push('/customer/products');
+      case 'seller':
+        return history.push('/seller/orders');
+      default: return console.log('Role not found!');
+      }
     }
   }, []);
 
