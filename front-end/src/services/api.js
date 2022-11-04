@@ -8,6 +8,7 @@ const CHECKOUT_ENDPOINT = 'http://localhost:3001/customer/checkout';
 const SELLERS_ENDPOINT = 'http://localhost:3001/seller';
 const PRODUCTS_ENDPOINT = 'http://localhost:3001/customer/products';
 const SALEBYID = 'http://localhost:3001/customer/sales/';
+const ADMIN_REGISTER_ENDPOINT = 'http://localhost:3001/admin/register/';
 
 export async function login({ email, password }) {
   try {
@@ -83,6 +84,19 @@ export async function getProductsSeller() {
 export async function getSalesById(id) {
   try {
     const { data } = await axios.get(`${SALEBYID}${id}`);
+    return data;
+  } catch (error) {
+    return error;
+  }
+}
+
+export async function adminRegister({ name, email, password, role }) {
+  try {
+    const { data } = await axios.post(
+      ADMIN_REGISTER_ENDPOINT,
+      { name, email, password, role },
+    );
+
     return data;
   } catch (error) {
     return error;

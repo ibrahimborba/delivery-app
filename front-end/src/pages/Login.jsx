@@ -41,6 +41,8 @@ function Login() {
       return history.push('/customer/products');
     case 'seller':
       return history.push('/seller/orders');
+    case 'administrator':
+      return history.push('/admin/manage');
     default: return console.log('Role not found!');
     }
   };
