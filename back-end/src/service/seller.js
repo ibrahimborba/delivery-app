@@ -1,4 +1,4 @@
-const { sale } = require('../database/models');
+const { sale, product, user } = require('../database/models');
 
 const getTenProducts = async () => {
   const result = await sale.findAll();
@@ -17,7 +17,18 @@ const getTenProducts = async () => {
   };
 
   const update = async (id, status) => {
-    await sale.findOne({ status }, { where: { id } });
+    await sale.update({ status }, { where: { id } });
+
+    const result = await sale.findByPk(id, {
+      include: [
+        { model: product, as: 'products' },
+        { model: user, as: 'seller' },
+      ],
+    });
+  
+    if (!result) return null;
+
+    return result;
   };
 
   module.exports = {
