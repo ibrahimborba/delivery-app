@@ -8,6 +8,7 @@ const CHECKOUT_ENDPOINT = 'http://localhost:3001/customer/checkout';
 const SELLERS_ENDPOINT = 'http://localhost:3001/seller';
 const PRODUCTS_ENDPOINT = 'http://localhost:3001/customer/products';
 const SALEBYID = 'http://localhost:3001/customer/sales/';
+const UPDATE_SALE = 'http://localhost:3001/seller/orders/';
 
 export async function login({ email, password }) {
   try {
@@ -80,9 +81,19 @@ export async function getProductsSeller() {
     return error;
   }
 }
+
 export async function getSalesById(id) {
   try {
     const { data } = await axios.get(`${SALEBYID}${id}`);
+    return data;
+  } catch (error) {
+    return error;
+  }
+}
+
+export async function updateStatus({ id, status }) {
+  try {
+    const { data } = await axios.patch(`${UPDATE_SALE}${id}`, { status });
     return data;
   } catch (error) {
     return error;
