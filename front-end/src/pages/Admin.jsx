@@ -4,16 +4,18 @@ import Input from '../components/Input';
 import { adminRegister } from '../services/api';
 
 function Admin() {
-  const [userInfo, setCustomerInfo] = useState(
-    { name: '', email: '', password: '', role: '' },
+  const roles = ['customer', 'seller', 'administrator'];
+
+  const [userInfo, setUserInfo] = useState(
+    { name: '', email: '', password: '', role: roles[0] },
   );
   const [isRegisterDisabled, setIsRegisterDisabled] = useState(true);
   const [errorResponse, setErrorResponse] = useState('');
 
-  const roles = ['customer', 'seller', 'administrator'];
-
   const handleChange = ({ target: { name, value } }) => {
-    setCustomerInfo((prevstate) => ({
+    setErrorResponse('');
+
+    setUserInfo((prevstate) => ({
       ...prevstate,
       [name]: value,
     }));
@@ -24,6 +26,7 @@ function Admin() {
     event.preventDefault();
 
     const { message } = await adminRegister(userInfo);
+    setUserInfo({ name: '', email: '', password: '', role: roles[0] });
 
     if (message) return setErrorResponse(message);
   };
@@ -78,7 +81,7 @@ function Admin() {
             placeholder="*********"
           />
           <select
-            name="type"
+            name="role"
             data-testid="admin_manage__select-role"
             onChange={ handleChange }
             value={ userInfo.role }
@@ -86,7 +89,8 @@ function Admin() {
             {roles.map((roleType, index) => (
               <option value={ roleType } key={ index }>
                 {roleType}
-              </option>))}
+              </option>
+            ))}
           </select>
           <Button
             dataTestId="admin_manage__button-register"
