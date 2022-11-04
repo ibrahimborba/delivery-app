@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from 'react';
 import HeaderProducts from '../components/HeaderSeller';
-import OrderCard from '../components/SellerOrderCard';
+import SellerOrderCard from '../components/SellerOrderCard';
 
 import { getProductsSeller } from '../services/api';
 
@@ -25,7 +25,7 @@ function CustomerProducts() {
       />
       {
         orders.map((order) => (
-          <OrderCard
+          <SellerOrderCard
             key={ order.id }
             id={ order.id }
             status={ order.status }

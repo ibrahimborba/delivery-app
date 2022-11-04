@@ -2,11 +2,12 @@ import React, { useState, useEffect } from 'react';
 import { useParams } from 'react-router-dom';
 import Header from '../components/HeaderProducts';
 import TableDetails from '../components/TableDetails';
-import { getSalesById } from '../services/api';
+import { getSalesById, updateStatus } from '../services/api';
 import Button from '../components/Button';
 
 export default function CustomerOrderDetails() {
   const [order, setOrder] = useState({ products: [], seller: { name: '' } });
+  const [status, setStatus] = useState('');
   const { id } = useParams();
   const dataTestId = 'customer_order_details__element-order-';
 
@@ -15,10 +16,21 @@ export default function CustomerOrderDetails() {
       const result = await getSalesById(id);
       if (!result) return setOrder([]);
       setOrder(result);
+      setStatus(result.status);
     };
 
     getOrder();
   }, []);
+
+  useEffect(() => {
+    const updateOrderStatus = async () => {
+      const result = await updateStatus({ id, status });
+      if (!result) return setOrder([]);
+      setOrder(result);
+    };
+
+    updateOrderStatus();
+  }, [status, id]);
 
   const formatDate = (date) => {
     const lastIndex = 10;
@@ -34,6 +46,10 @@ export default function CustomerOrderDetails() {
       const formatedTotal = total.replace('.', ',');
       return formatedTotal;
     }
+  };
+
+  const handleChangeStatus = ({ target }) => {
+    setStatus(target.name);
   };
 
   return (
@@ -55,9 +71,10 @@ export default function CustomerOrderDetails() {
       <Button
         dataTestId="customer_order_details__button-delivery-check"
         type="button"
-        name="delivered"
+        name="Entregue"
         text="Marcar Como Entregue"
-        disabled
+        disabled={ status !== 'Em Trânsito' }
+        onClick={ handleChangeStatus }
       />
       <p data-testid={ `${dataTestId}total-price` }>
         {formatTotal(order.totalPrice)}
