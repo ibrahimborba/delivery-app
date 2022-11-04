@@ -2,10 +2,12 @@ const user = require('./user');
 const seller = require('./seller');
 const products = require('./products');
 const customer = require('./customer');
+const customerOrders = require('./customerOrders');
 
 module.exports = {
   user,
-seller,
-products,
+  products,
+  customerOrders,
+  seller,
   customer, 
 };

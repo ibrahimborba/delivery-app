@@ -21,6 +21,18 @@ const getUser = async (email, password) => {
   return { ...result.dataValues, token };
 };
 
+const getUserId = async (email) => {
+  const result = await user.findOne({
+    where: {
+      email,
+    },
+  });
+
+  if (!result) return null;
+
+  return result.id;
+};
+
 const create = async ({ email, password, name }) => {
   const userAlreadyExist = await user.findOne({ where: {
     [Op.or]: [
@@ -56,6 +68,7 @@ const getSellers = async () => user.findAll({
 
 module.exports = {
   getUser,
+  getUserId,
   create,
   getSellers,
 };

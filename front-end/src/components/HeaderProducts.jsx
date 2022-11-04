@@ -12,6 +12,10 @@ function HeaderProducts() {
     history.push('/customer/products');
   };
 
+  const handleRedirectOrders = () => {
+    history.push('/customer/orders');
+  };
+
   const handleLogout = () => {
     setLoggedUser({
       name: '',
@@ -37,6 +41,7 @@ function HeaderProducts() {
           type="button"
           name="orders"
           text="Meus Pedidos"
+          onClick={ handleRedirectOrders }
         />
         <span
           data-testid="customer_products__element-navbar-user-full-name"

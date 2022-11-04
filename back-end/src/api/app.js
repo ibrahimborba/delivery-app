@@ -12,6 +12,7 @@ app.use(routes.user);
 app.use(routes.seller);
 app.use('/customer', routes.customer);
 app.use(routes.products);
+app.use(routes.customerOrders);
 
 app.get('/coffee', (_req, res) => res.status(418).end());
 
