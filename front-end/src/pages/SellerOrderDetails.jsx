@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import { useParams } from 'react-router-dom';
-import Header from '../components/HeaderProducts';
+import HeaderSeller from '../components/HeaderSeller';
 import TableDetailsSeller from '../components/TableDetailsSeller';
 import { getSalesById, updateStatus } from '../services/api';
 import Button from '../components/Button';
@@ -54,7 +54,7 @@ export default function SellerOrderDetails() {
 
   return (
     <>
-      <Header />
+      <HeaderSeller />
       <h1>Seller Order Details</h1>
       <span data-testid={ `${dataTestId}details-label-order-id` }>
         {order.id}

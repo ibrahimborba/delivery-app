@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from 'react';
-import HeaderProducts from '../components/HeaderSeller';
+import HeaderSeller from '../components/HeaderSeller';
 import SellerOrderCard from '../components/SellerOrderCard';
 
 import { getProductsSeller } from '../services/api';
@@ -19,7 +19,7 @@ function CustomerProducts() {
 
   return (
     <>
-      <HeaderProducts />
+      <HeaderSeller />
       <p
         data-testid="customer_products__checkout-bottom-value"
       />
