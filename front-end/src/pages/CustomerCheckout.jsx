@@ -64,6 +64,8 @@ function CustomerCheckout() {
   const handleSubmit = async (event) => {
     event.preventDefault();
 
+    console.log(orders);
+
     const result = await checkout(
       { ...customerInfo, totalPrice: total, products: orders },
     );
