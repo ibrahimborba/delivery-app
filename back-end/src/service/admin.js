@@ -1,6 +1,7 @@
 const { Op } = require('sequelize');
 const md5 = require('md5');
 const { user } = require('../database/models');
+const tokenHelper = require('../helpers/token');
 
 const create = async ({ email, password, name, role }) => {
   const userAlreadyExist = await user.findOne({ where: {
@@ -20,8 +21,10 @@ const create = async ({ email, password, name, role }) => {
       role,
     },
   );
+
+   const token = tokenHelper.create({ email });
   
-  return { email, name, role };
+  return { email, name, role, token };
 };
 
 module.exports = {
