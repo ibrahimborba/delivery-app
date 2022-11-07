@@ -111,7 +111,6 @@ describe('Login Page', () => {
       userEvent.click(exitBtn);
     });
 
-
     it('Redirects to seller orders page with valid seller info', async () => {
       axios.post.mockResolvedValue({ data: { ...seller } });
       act(() => {
