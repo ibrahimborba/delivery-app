@@ -29,7 +29,7 @@ function ProductCard({ id, urlImage, name, price }) {
       newOrders = orders.filter((order) => order.id !== productId);
     }
 
-    if (!orders.some((order) => order.id === productId) && quantity === 1) {
+    if (!orders.some((order) => order.id === productId) && quantity >= 1) {
       newOrders = [...orders, { id, urlImage, name, price: floatPrice, quantity }];
     }
 
@@ -49,6 +49,9 @@ function ProductCard({ id, urlImage, name, price }) {
 
   const handleChange = ({ target }) => {
     const newQuantity = parseInt(target.value, 10);
+    if (Number.isNaN(newQuantity)) {
+      return setQuantity(0);
+    }
     setQuantity(newQuantity);
   };
 

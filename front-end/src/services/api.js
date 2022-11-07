@@ -3,6 +3,7 @@ import { getToken } from './userLocalStg';
 
 const LOGIN_ENDPOINT = 'http://localhost:3001/login';
 const REGISTER_ENDPOINT = 'http://localhost:3001/register';
+const CUSTOMER_ORDERS_ENDPOINT = 'http://localhost:3001/customer/orders';
 const SELLER_PRODUCTS_ENDPOINT = 'http://localhost:3001/seller/orders';
 const CHECKOUT_ENDPOINT = 'http://localhost:3001/customer/checkout';
 const SELLERS_ENDPOINT = 'http://localhost:3001/seller';
@@ -73,6 +74,16 @@ export async function getProducts() {
   }
 }
 
+export async function getSalesByUserEmail(email) {
+  try {
+    const { data } = await axios
+      .get(CUSTOMER_ORDERS_ENDPOINT, { params: { email } });
+    return data;
+  } catch (error) {
+    return error;
+  }
+}
+
 export async function getProductsSeller() {
   try {
     const { data } = await axios.get(SELLER_PRODUCTS_ENDPOINT);
@@ -81,6 +92,7 @@ export async function getProductsSeller() {
     return error;
   }
 }
+
 export async function getSalesById(id) {
   try {
     const { data } = await axios.get(`${SALEBYID}${id}`);

@@ -16,7 +16,7 @@ export const getUser = () => {
 
 export const saveUser = (user) => localStorage.setItem(USER_KEY, JSON.stringify(user));
 
-export const logoutStg = () => localStorage.clear();
+export const logoutStg = () => localStorage.removeItem(USER_KEY);
 
 export const getToken = () => {
   const { token } = getUser();
