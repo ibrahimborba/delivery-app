@@ -5,11 +5,12 @@ import Login from './pages/Login';
 import Register from './pages/Register';
 import CustomerProducts from './pages/CustomerProducts';
 import CustomerOrders from './pages/CustomerOrders';
-import { UserProvider } from './context/UserContext';
 import CustomerCheckout from './pages/CustomerCheckout';
-import { OrdersProvider } from './context/OrdersContext';
 import Seller from './pages/Seller';
 import CustomerOrderDetails from './pages/CustomerOrderDetails';
+import SellerOrderDetails from './pages/SellerOrderDetails';
+import { UserProvider } from './context/UserContext';
+import { OrdersProvider } from './context/OrdersContext';
 import Admin from './pages/Admin';
 
 function App() {
@@ -26,7 +27,7 @@ function App() {
           <Route exact path="/seller/orders" component={ Seller } />
           <Route exact path="/customer/checkout" component={ CustomerCheckout } />
           <Route exact path="/customer/orders/:id" component={ CustomerOrderDetails } />
-          <Route exact path="/seller/orders/:id" component={ CustomerOrderDetails } />
+          <Route exact path="/seller/orders/:id" component={ SellerOrderDetails } />
         </OrdersProvider>
       </Switch>
     </UserProvider>

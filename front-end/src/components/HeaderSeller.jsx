@@ -8,9 +8,9 @@ function HeaderProducts() {
   const history = useHistory();
   const { loggedUser, setLoggedUser } = useContext(UserContext);
 
-  /* const handleRedirectProducts = () => {
-    history.push('/customer/products');
-  }; */
+  const handleRedirectOrders = () => {
+    history.push('/seller/orders');
+  };
 
   const handleLogout = () => {
     setLoggedUser({
@@ -30,6 +30,7 @@ function HeaderProducts() {
           type="button"
           name="orders"
           text="Pedidos"
+          onClick={ handleRedirectOrders }
         />
         <span
           data-testid="customer_products__element-navbar-user-full-name"

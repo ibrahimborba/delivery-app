@@ -1,5 +1,7 @@
 const sellerService = require('../service/seller');
 
+const INTERNAL_ERROR = 'Internal server error';
+
 const getTenProducts = async (_req, res) => {
     try {
         const result = await sellerService.getTenProducts();
@@ -10,7 +12,7 @@ const getTenProducts = async (_req, res) => {
     } catch (error) {
         console.error(error);
 
-        return res.status(500).json({ message: 'Internal server error' });
+        return res.status(500).json({ message: INTERNAL_ERROR });
     }
 };
 
@@ -25,15 +27,21 @@ const getProductById = async (req, res) => {
     } catch (error) {
         console.error(error);
 
-        return res.status(500).json({ message: 'Internal server error' });
+        return res.status(500).json({ message: INTERNAL_ERROR });
     }
 };
 
 const update = async (req, res) => {
-    const { id } = req.params;
-    const { status } = req.body; // Não tenho certeza quanto a forma em que o status vai chegar
-    await sellerService.update(id, status);
-    return res.status(200).json({ message: 'updated!' });
+    try {
+        const { id } = req.params;
+        const { status } = req.body;
+        const result = await sellerService.update(id, status);
+        return res.status(200).json(result);
+    } catch (error) {
+        console.error(error);
+
+        return res.status(500).json({ message: INTERNAL_ERROR });
+    }
   };
 
 module.exports = {

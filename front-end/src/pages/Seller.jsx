@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from 'react';
-import HeaderProducts from '../components/HeaderSeller';
-import OrderCard from '../components/SellerOrderCard';
+import HeaderSeller from '../components/HeaderSeller';
+import SellerOrderCard from '../components/SellerOrderCard';
 
 import { getProductsSeller } from '../services/api';
 
@@ -10,23 +10,22 @@ function CustomerProducts() {
   useEffect(() => {
     const getAllProducts = async () => {
       const result = await getProductsSeller();
-      console.log(result);
       if (!result) return setOrders([]);
       setOrders(result);
     };
 
     getAllProducts();
   }, []);
-  console.log(orders);
+
   return (
     <>
-      <HeaderProducts />
+      <HeaderSeller />
       <p
         data-testid="customer_products__checkout-bottom-value"
       />
       {
         orders.map((order) => (
-          <OrderCard
+          <SellerOrderCard
             key={ order.id }
             id={ order.id }
             status={ order.status }
