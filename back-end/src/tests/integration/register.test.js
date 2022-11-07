@@ -10,31 +10,36 @@ const { userMock } = require('../mocks/models');
 chai.use(chaiHttp);
 const { expect } = chai;
 
-describe('POST /login', () => {
+describe('POST /register', () => {
   describe('Success', () => {
     let response;
 
     const expectedUser = {
-      name: "Cliente Zé Birita",
-      email: "zebirita@email.com",
+      name: "Nome Sobrenome",
+      email: "nome.sobrenome@email.com",
       role: "customer"
     };
 
     before(async () => {
-      sinon.stub(user, 'findOne').callsFake(userMock.findOne);
+      sinon.stub(user, 'create').callsFake(userMock.create);
+      sinon.stub(user, 'findOne').resolves(null);
 
       response = await chai.request(app)
-      .post('/login')
+      .post('/register')
       .send({
-        email: 'zebirita@email.com',
-        password: '$#zebirita#$',
+        name: "Nome Sobrenome",
+        email: "nome.sobrenome@email.com",
+        password: 'senha_nome',
       });
     });
 
-    after(() => { user.findOne.restore(); });
+    after(() => {
+      user.create.restore();
+      user.findOne.restore();
+    });
 
     it('returns expected status', () => {
-      expect(response).to.have.status(200);
+      expect(response).to.have.status(201);
     });
     it('response contains logged user', () => {
       const { body } = response;
@@ -47,26 +52,31 @@ describe('POST /login', () => {
   });
 
   describe('Error', () => {
-    describe('Invalid input', () => {
+    describe('User already exists', () => {
       let response;  
       before(async () => {
-        sinon.stub(user, 'findOne').resolves(null);
+        sinon.stub(user, 'create').callsFake(userMock.create);
+        sinon.stub(user, 'findOne').callsFake(userMock.findOne);
 
         response = await chai.request(app)
-        .post('/login')
+        .post('/register')
         .send({
+          name: "Cliente Zé Birita",
           email: 'zebirita@email.com',
           password: 'password',
         });
       });
 
-      after(() => { user.findOne.restore(); });
+      after(() => {
+        user.create.restore();
+        user.findOne.restore();
+      });
   
       it('returns expected status', () => {
-        expect(response).to.have.status(404);
+        expect(response).to.have.status(409);
       });
       it('response contains expected message', () => {
-        expect(response.body.message).to.be.equals('Not found');
+        expect(response.body.message).to.be.equals('Conflict');
       });
     });
 
@@ -75,17 +85,22 @@ describe('POST /login', () => {
       const INTERNAL_SERVER_ERROR = 'Internal Server Error';
 
       before(async () => {
+        sinon.stub(user, 'create').callsFake(userMock.create);
         sinon.stub(user, 'findOne').throws(INTERNAL_SERVER_ERROR);
 
         response = await chai.request(app)
-        .post('/login')
+        .post('/register')
         .send({
-          email: 'zebirita@email.com',
+          name: "Nome Sobrenome",
+          email: "nome.sobrenome@email.com",
           password: 'password',
         });
       });
 
-      after(() => { user.findOne.restore(); });
+      after(() => {
+        user.create.restore();
+        user.findOne.restore();
+      });
 
       it('returns expected status', () => {
         expect(response).to.have.status(500);
