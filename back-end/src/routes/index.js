@@ -7,9 +7,9 @@ const admin = require('./admin');
 
 module.exports = {
   user,
-  products,
-  customerOrders,
   seller,
+  products,
   customer,
+  customerOrders,
   admin,
 };
