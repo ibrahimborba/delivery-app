@@ -9,9 +9,7 @@ module.exports = {
   user,
   products,
   customerOrders,
-  user,
   seller,
-  products,
   customer,
   admin,
 };

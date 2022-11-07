@@ -8,13 +8,10 @@ import CustomerOrders from './pages/CustomerOrders';
 import CustomerCheckout from './pages/CustomerCheckout';
 import Seller from './pages/Seller';
 import CustomerOrderDetails from './pages/CustomerOrderDetails';
-<<<<<<< HEAD
 import SellerOrderDetails from './pages/SellerOrderDetails';
 import { UserProvider } from './context/UserContext';
 import { OrdersProvider } from './context/OrdersContext';
-=======
 import Admin from './pages/Admin';
->>>>>>> 2f15cf64beeb343c8da25f8da6abca38fa4434ff
 
 function App() {
   return (
