@@ -13,17 +13,19 @@ function Login() {
   const [errorResponse, setErrorResponse] = useState('');
   const { setLoggedUser } = useContext(UserContext);
 
-  useEffect(() => {
-    const loggedUser = localStorage.getItem('user');
-    if (!loggedUser) return;
+  const USER_KEY = 'user';
+  const loggedUser = JSON.parse(localStorage.getItem(USER_KEY));
 
-    const { role } = loggedUser;
-    switch (role) {
-    case 'customer':
-      return history.push('/customer/products');
-    case 'seller':
-      return history.push('/seller/orders');
-    default: return console.log('Role not found!');
+  useEffect(() => {
+    if (loggedUser) {
+      const { role } = loggedUser;
+      switch (role) {
+      case 'customer':
+        return history.push('/customer/products');
+      case 'seller':
+        return history.push('/seller/orders');
+      default: return console.log('Role not found!');
+      }
     }
   }, []);
 
