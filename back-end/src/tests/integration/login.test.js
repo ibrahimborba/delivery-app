@@ -10,14 +10,8 @@ const { userMock } = require('../mocks/models');
 chai.use(chaiHttp);
 const { expect } = chai;
 
-describe('POST /login', function () {
-  before(function () {
-    sinon.stub(user, 'findOne').callsFake(userMock.findOne);
-  });
-
-  after(function () { return user.findOne.restore(); });
-
-  describe('Success', function () {
+describe('POST /login', () => {
+  describe('Success', () => {
     let response;
 
     const expectedUser = {
@@ -26,7 +20,9 @@ describe('POST /login', function () {
       role: "customer"
     };
 
-    before(async function () {
+    before(async () => {
+      sinon.stub(user, 'findOne').callsFake(userMock.findOne);
+
       response = await chai.request(app)
       .post('/login')
       .send({
@@ -35,10 +31,12 @@ describe('POST /login', function () {
       });
     });
 
-    it('returns status code 200', function () {
+    after(() => { return user.findOne.restore(); });
+
+    it('returns expected status', () => {
       expect(response).to.have.status(200);
     });
-    it('response contains logged user: name, email, role and token', function () {
+    it('response contains logged user', () => {
       const { body } = response;
       
       expect(body.name).to.be.equals(expectedUser.name);
@@ -47,24 +45,54 @@ describe('POST /login', function () {
       expect(body.token).to.be.a('string');
     });
   });
-/* 
-  describe('Error', function () {
-    let response;
 
-    before(async function () {
-      response = await chai.request(app)
-      .post('/login')
-      .send({
-        email: 'ayrtonsenna@gmail.com',
-        password: 'password',
+  describe('Error', () => {
+    describe('Invalid input', () => {
+      let response;  
+      before(async () => {
+        sinon.stub(user, 'findOne').resolves(null);
+
+        response = await chai.request(app)
+        .post('/login')
+        .send({
+          email: 'zebirita@email.com',
+          password: 'password',
+        });
+      });
+
+      after(() => { return user.findOne.restore(); });
+  
+      it('returns expected status', () => {
+        expect(response).to.have.status(404);
+      });
+      it('response contains expected message', () => {
+        expect(response.body.message).to.be.equals('Not found');
       });
     });
 
-    it('returns status code 400', function () {
-      expect(response).to.have.status(400);
+    describe('Throws an error', () => {
+      let response;
+      const INTERNAL_SERVER_ERROR = 'Internal Server Error';
+
+      before(async () => {
+        sinon.stub(user, 'findOne').throws(INTERNAL_SERVER_ERROR);
+
+        response = await chai.request(app)
+        .post('/login')
+        .send({
+          email: 'zebirita@email.com',
+          password: 'password',
+        });
+      });
+
+      after(() => { return user.findOne.restore(); });
+
+      it('returns expected status', () => {
+        expect(response).to.have.status(500);
+      });
+      it('response contains expected message', () => {
+        expect(response.body.message).to.be.equals(INTERNAL_SERVER_ERROR);
+      });
     });
-    it('response contains message with value "Invalid fields"', function () {
-      expect(response.body.message).to.be.equals('Invalid fields');
-    });
-  }); */
+  })
 });
