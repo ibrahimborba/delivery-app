@@ -18,9 +18,9 @@ const INVALID_EMAIL = 'useremailcom';
 const VALID_PASSWORD = '123456';
 const INVALID_PASSWORD = '12345';
 
-describe('Login Page', () => {
+describe('Register Page', () => {
   describe('Render', () => {
-    it('checks if Login page elements are rendered as expected', () => {
+    it('checks if Register page elements are rendered as expected', () => {
       renderWithRouterContext(<Register />);
 
       const nameInput = screen.getByLabelText(/Nome/i);
@@ -38,7 +38,7 @@ describe('Login Page', () => {
   describe('Behavior', () => {
     afterEach(() => jest.clearAllMocks());
 
-    it('Enables register button if valid info', () => {
+    it('Enables register button with valid info', () => {
       renderWithRouterContext(<Register />);
 
       const nameInput = screen.getByLabelText(/Nome/i);
@@ -56,7 +56,7 @@ describe('Login Page', () => {
       expect(submitBtn).not.toBeDisabled();
     });
 
-    it('Disables register button if invalid info', () => {
+    it('Disables register button with invalid info', () => {
       renderWithRouterContext(<Register />);
 
       const nameInput = screen.getByLabelText(/Nome/i);
