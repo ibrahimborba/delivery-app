@@ -27,6 +27,24 @@ const create = async ({ email, password, name, role }) => {
   return { email, name, role, token };
 };
 
+const getUsersAndSellers = async () => user.findAll({
+  where: {
+    role: {
+      [Op.or]: ['seller', 'customer'],
+    },
+  },
+  attributes: { exclude: ['password'] },
+});
+
+const removeUser = async (email) => {
+  const userToRemove = await user.findOne({ where: { email } });
+  if (!userToRemove) return null;
+  await userToRemove.destroy();
+  return userToRemove;
+};
+
 module.exports = {
   create,
+  getUsersAndSellers,
+  removeUser,
 };
