@@ -1,4 +1,5 @@
 const users = require('./users.json');
+const products = require('./products.json');
 
 const mockFindOne = (Entity, where) => {
   if (!where) return Entity[0];
@@ -79,6 +80,11 @@ const userMock = {
   destroy: async ({ where }) => mockDestroy(users, where),
 };
 
+const productMock = {
+  findAll: async () => mockFindAll(products),
+};
+
 module.exports = {
-  userMock
+  userMock,
+  productMock
 };
