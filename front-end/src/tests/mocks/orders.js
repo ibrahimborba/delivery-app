@@ -1,4 +1,4 @@
-const productsList = [
+const ordersList = [
   {
     id: 1,
     userId: 3,
@@ -41,4 +41,4 @@ const productsList = [
   },
 ];
 
-export default productsList;
+export default ordersList;
