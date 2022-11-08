@@ -70,5 +70,5 @@ module.exports = {
   getUser,
   getUserId,
   create,
-  getSellers,
+  getSellers
 };

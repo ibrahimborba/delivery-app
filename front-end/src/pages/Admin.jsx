@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from 'react';
 import Button from '../components/Button';
 import Input from '../components/Input';
-import { adminRegister } from '../services/api';
+import { adminRegister, getUsersAndSellers } from '../services/api';
 
 function Admin() {
   const roles = ['customer', 'seller', 'administrator'];
@@ -11,6 +11,7 @@ function Admin() {
   );
   const [isRegisterDisabled, setIsRegisterDisabled] = useState(true);
   const [errorResponse, setErrorResponse] = useState('');
+  const [usersAndSellers, setUsersAndSellers] = useState([]);
 
   const handleChange = ({ target: { name, value } }) => {
     setErrorResponse('');
@@ -19,7 +20,6 @@ function Admin() {
       ...prevstate,
       [name]: value,
     }));
-    console.log(userInfo);
   };
 
   const handleSubmit = async (event) => {
@@ -41,6 +41,15 @@ function Admin() {
         && userInfo.name.length >= MIN_NAME_LENGTH),
     );
   }, [userInfo]);
+
+  const fetchUsersAndSellers = async () => {
+    const data = await getUsersAndSellers();
+    setUsersAndSellers(data);
+  };
+
+  useEffect(() => {
+    fetchUsersAndSellers();
+  }, []);
 
   return (
     <>
@@ -101,9 +110,51 @@ function Admin() {
           />
         </form>
       </section>
-      <section>
-        <h2>Lista de usuários</h2>
-      </section>
+      <h2>Lista de usuários</h2>
+      <table>
+        <thead>
+          <tr>
+            <th>Item</th>
+            <th>Nome</th>
+            <th>Email</th>
+            <th>Tipo</th>
+            <th>Excluir</th>
+          </tr>
+        </thead>
+        <tbody>
+          {usersAndSellers.length > 0 && (
+            usersAndSellers.map((user, index) => (
+              <tr key={ index }>
+                <td
+                  data-testid={ `admin_manage__element-user-table-item-number-${index}` }
+                >
+                  {index + 1}
+                </td>
+                <td
+                  data-testid={ `admin_manage__element-user-table-name-${index}` }
+                >
+                  {user.name}
+                </td>
+                <td
+                  data-testid={ `admin_manage__element-user-table-email-${index}` }
+                >
+                  {user.email}
+                </td>
+                <td
+                  data-testid={ `admin_manage__element-user-table-role-${index}` }
+                >
+                  {user.role === 'seller' ? 'P. Vendedora' : 'Cliente'}
+                </td>
+                <td
+                  data-testid={ `admin_manage__element-user-table-remove-${index}` }
+                >
+                  Excluir
+                </td>
+              </tr>
+            ))
+          )}
+        </tbody>
+      </table>
     </>
   );
 }
