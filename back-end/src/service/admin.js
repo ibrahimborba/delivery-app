@@ -36,7 +36,15 @@ const getUsersAndSellers = async () => user.findAll({
   attributes: { exclude: ['password'] },
 });
 
+const removeUser = async (email) => {
+  const userToRemove = await user.findOne({ where: { email } });
+  if (!userToRemove) return null;
+  await userToRemove.destroy();
+  return userToRemove;
+};
+
 module.exports = {
   create,
   getUsersAndSellers,
+  removeUser,
 };

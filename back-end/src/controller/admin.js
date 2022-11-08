@@ -29,7 +29,24 @@ const getUsersAndSellers = async (req, res) => {
   }
 };
 
+const removeUser = async (req, res) => {
+  try {
+    const { email } = req.params;
+
+    const result = await adminService.removeUser(email);
+
+    if (!result) return res.status(404).json({ message: 'Not Found' });
+
+    return res.status(204).json();
+  } catch (error) {
+    console.error(error);
+
+    return res.status(500).json({ message: INTERNAL_SERVER_ERROR });
+  }
+};
+
 module.exports = {
   create,
   getUsersAndSellers,
+  removeUser,
 };

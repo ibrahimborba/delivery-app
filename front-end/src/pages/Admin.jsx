@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from 'react';
 import Button from '../components/Button';
 import Input from '../components/Input';
-import { adminRegister, getUsersAndSellers } from '../services/api';
+import { adminRegister, getUsersAndSellers, removeUser } from '../services/api';
 
 function Admin() {
   const roles = ['customer', 'seller', 'administrator'];
@@ -12,6 +12,11 @@ function Admin() {
   const [isRegisterDisabled, setIsRegisterDisabled] = useState(true);
   const [errorResponse, setErrorResponse] = useState('');
   const [usersAndSellers, setUsersAndSellers] = useState([]);
+
+  const fetchUsersAndSellers = async () => {
+    const data = await getUsersAndSellers();
+    setUsersAndSellers(data);
+  };
 
   const handleChange = ({ target: { name, value } }) => {
     setErrorResponse('');
@@ -27,6 +32,7 @@ function Admin() {
 
     const { message } = await adminRegister(userInfo);
     setUserInfo({ name: '', email: '', password: '', role: roles[0] });
+    fetchUsersAndSellers();
 
     if (message) return setErrorResponse(message);
   };
@@ -42,9 +48,10 @@ function Admin() {
     );
   }, [userInfo]);
 
-  const fetchUsersAndSellers = async () => {
-    const data = await getUsersAndSellers();
-    setUsersAndSellers(data);
+  const handleRemoveUser = async ({ target }) => {
+    const email = target.value;
+    await removeUser(email);
+    fetchUsersAndSellers();
   };
 
   useEffect(() => {
@@ -145,11 +152,14 @@ function Admin() {
                 >
                   {user.role === 'seller' ? 'P. Vendedora' : 'Cliente'}
                 </td>
-                <td
+                <button
                   data-testid={ `admin_manage__element-user-table-remove-${index}` }
+                  type="button"
+                  value={ user.email }
+                  onClick={ handleRemoveUser }
                 >
                   Excluir
-                </td>
+                </button>
               </tr>
             ))
           )}

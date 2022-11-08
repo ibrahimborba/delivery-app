@@ -12,6 +12,7 @@ const SALEBYID = 'http://localhost:3001/customer/sales/';
 const UPDATE_SALE = 'http://localhost:3001/seller/orders/';
 const ADMIN_REGISTER_ENDPOINT = 'http://localhost:3001/admin/register/';
 const ADMIN_USERS_ENDPOINT = 'http://localhost:3001/admin/manage';
+const ADMIN_REMOVE_USER_ENDPOINT = 'http://localhost:3001/admin/manage/';
 
 export async function login({ email, password }) {
   try {
@@ -134,6 +135,20 @@ export async function adminRegister({ name, email, password, role }) {
 export async function getUsersAndSellers() {
   try {
     const { data } = await axios.get(ADMIN_USERS_ENDPOINT, {
+      headers: {
+        authorization: getToken(),
+      },
+    });
+
+    return data;
+  } catch (error) {
+    return error;
+  }
+}
+
+export async function removeUser(email) {
+  try {
+    const { data } = await axios.delete(`${ADMIN_REMOVE_USER_ENDPOINT}${email}`, {
       headers: {
         authorization: getToken(),
       },
