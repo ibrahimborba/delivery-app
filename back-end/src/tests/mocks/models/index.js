@@ -87,6 +87,7 @@ const productMock = {
 
 const saleByIdMock = {
   findByPk: async () => saleById,
+  update: async (fields, where) => mockUpdate(BlogPosts, fields, where),
 };
 
 module.exports = {
