@@ -5,7 +5,7 @@ import * as api from '../../services/api';
 import CustomerOrderDetails from '../../pages/CustomerOrderDetails';
 import renderWithRouter from '../helpers/renderWithRouter';
 import { customer } from '../mocks/users';
-import orderDetails from '../mocks/orderDetails';
+import orderDetails from '../mocks/customerOrderDetails';
 import orderDetailsDelivered from '../mocks/orderDetailsDelivered';
 
 jest.mock('axios');
