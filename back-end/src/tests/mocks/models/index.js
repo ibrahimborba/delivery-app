@@ -1,5 +1,6 @@
 const users = require('./users.json');
 const products = require('./products.json');
+const saleById = require('./saleById.json');
 
 const mockFindOne = (Entity, where) => {
   if (!where) return Entity[0];
@@ -84,7 +85,12 @@ const productMock = {
   findAll: async () => mockFindAll(products),
 };
 
+const saleByIdMock = {
+  findByPk: async () => saleById,
+};
+
 module.exports = {
   userMock,
-  productMock
+  productMock,
+  saleByIdMock,
 };

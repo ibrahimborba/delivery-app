@@ -13,20 +13,18 @@ const getSales = async () => {
     if (!result) return null;
 
     return result;
-  };
+};
 
-  const getSalesById = async (id) => {
-    const result = await sale.findByPk(id, {
-      include: [
-        { model: product, as: 'products' },
-        { model: user, as: 'seller' },
-      ],
-    });
-  
-      if (!result) return null;
-  
-      return result;
-    };
+const getSalesById = async (id) => {
+  const result = await sale.findByPk(id, {
+    include: [
+      { model: product, as: 'products' },
+      { model: user, as: 'seller' },
+    ],
+  });
+
+  return result;
+};
 
 const createSaleProducts = async ({ products, saleId }, t) => {
   const data = [];
