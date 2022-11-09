@@ -14,7 +14,6 @@ export default function CustomerOrderDetails() {
   useEffect(() => {
     const getOrder = async () => {
       const result = await getSalesById(id);
-      if (!result) return setOrder([]);
       setOrder(result);
       setStatus(result.status);
     };
@@ -25,7 +24,6 @@ export default function CustomerOrderDetails() {
   useEffect(() => {
     const updateOrderStatus = async () => {
       const result = await updateStatus({ id, status });
-      if (!result) return setOrder([]);
       setOrder(result);
     };
 

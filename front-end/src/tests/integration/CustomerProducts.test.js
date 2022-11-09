@@ -1,14 +1,11 @@
 import React from 'react';
-import { act, screen, waitForElementToBeRemoved } from '@testing-library/react';
+import { act, screen } from '@testing-library/react';
 import userEvent from '@testing-library/user-event';
 import * as axios from 'axios';
 import * as api from '../../services/api';
 import App from '../../App';
 import CustomerProducts from '../../pages/CustomerProducts';
-import renderWithRouterContext from '../helpers/renderWithRouterContext';
 import renderWithRouter from '../helpers/renderWithRouter';
-import { UserContext } from '../../context/UserContext';
-import { OrdersContext } from '../../context/OrdersContext';
 import { customer, seller } from '../mocks/users';
 import products from '../mocks/products';
 import orders from '../mocks/orders';
