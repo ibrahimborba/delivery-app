@@ -1,0 +1,12 @@
+[
+    {
+      "id": 1,
+      "user_id": 3,
+      "seller_id": 1,
+      "total_price": 34.05,
+      "delivery_address": "rua de teste",
+      "delivery_number": "137",
+      "sale_date": "",
+      "status": "Pendente"
+    }
+]

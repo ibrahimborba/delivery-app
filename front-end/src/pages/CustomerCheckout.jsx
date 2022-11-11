@@ -20,7 +20,6 @@ function CustomerCheckout() {
   useEffect(() => {
     async function sellersData() {
       const sellersResult = await sellers();
-      console.log(sellersResult);
       setSellersInfo(sellersResult);
       setCustomerInfo((prevstate) => ({
         ...prevstate,
@@ -89,17 +88,21 @@ function CustomerCheckout() {
       <section>
         <h2>Detalhes e Endereço para Entrega</h2>
         <form onSubmit={ handleSubmit }>
-          <select
-            name="sellerId"
-            data-testid="customer_checkout__select-seller"
-            onChange={ handleChange }
-            value={ customerInfo.sellerId }
-          >
-            {sellersInfo.map((seller) => (
-              <option value={ seller.id } key={ seller.id }>
-                {seller.name}
-              </option>))}
-          </select>
+          <label htmlFor="sellerId">
+            P. Vendedora Responsável
+            <select
+              id="sellerId"
+              name="sellerId"
+              data-testid="customer_checkout__select-seller"
+              onChange={ handleChange }
+              value={ customerInfo.sellerId }
+            >
+              {sellersInfo.map((seller) => (
+                <option value={ seller.id } key={ seller.id }>
+                  {seller.name}
+                </option>))}
+            </select>
+          </label>
           <Input
             label="endereço"
             dataTestId="customer_checkout__input-address"
