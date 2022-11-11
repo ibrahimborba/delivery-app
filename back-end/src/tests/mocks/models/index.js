@@ -1,11 +1,8 @@
 const users = require('./users.json');
 const products = require('./products.json');
-<<<<<<< HEAD
 const saleById = require('./saleById.json');
-=======
 const sales = require('./sales.json');
 const salesProducts = require('./salesProducts.json');
->>>>>>> 6a0fc85cf803c40151bbb6790b6b466b7f09e61e
 
 const mockFindOne = (Entity, where) => {
   if (!where) return Entity[0];
@@ -33,7 +30,7 @@ const mockFindByPk = (Entity, id) => {
 
 const mockCreate = (Entity, newInstance) => {
   Entity.push(newInstance);
-  return newInstance;
+  return { ...newInstance, id: Entity.length };
 };
 
 const mockFindAndCountAll = (Entity, where) => {
@@ -90,28 +87,23 @@ const productMock = {
   findAll: async () => mockFindAll(products),
 };
 
-<<<<<<< HEAD
 const saleByIdMock = {
   findByPk: async () => saleById,
   update: async (fields, where) => mockUpdate(BlogPosts, fields, where),
 };
-=======
+
 const saleMock = {
   create: async (newSale) => mockCreate(sales, newSale),
 }
 
 const saleProductMock = {
-   create: async (newSale) => mockCreate(salesProducts, newSale),
+   create: async (newSale) => mockBulkCreate(salesProducts, newSale),
 }
->>>>>>> 6a0fc85cf803c40151bbb6790b6b466b7f09e61e
 
 module.exports = {
   userMock,
   productMock,
-<<<<<<< HEAD
   saleByIdMock,
-=======
   saleMock,
   saleProductMock
->>>>>>> 6a0fc85cf803c40151bbb6790b6b466b7f09e61e
 };
