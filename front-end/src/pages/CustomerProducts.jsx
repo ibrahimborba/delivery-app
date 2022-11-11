@@ -37,7 +37,6 @@ function CustomerProducts() {
   useEffect(() => {
     const getAllProducts = async () => {
       const result = await getProducts();
-      if (!result) return setProducts([]);
       setProducts(result);
     };
 

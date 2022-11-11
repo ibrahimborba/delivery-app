@@ -109,7 +109,11 @@ describe('Customer Checkout page', () => {
       act(() => {
         api.sellers = jest.fn().mockImplementation(() => apiResult);
 
-        renderWithRouterContext(<CustomerCheckout />, { loggedUser: customer }, { orders });
+        renderWithRouterContext(
+          <CustomerCheckout />,
+          { loggedUser: customer },
+          { orders, setOrders: () => {} }
+        );
       })
 
       const productRemoveBtn = screen.getAllByTestId(/customer_checkout__element-order-table-remove/i);
