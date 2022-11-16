@@ -15,13 +15,13 @@ export const sellers = [
 
 export const users = [
   {
-    id: 1,
+    id: 2,
     name: 'Fulana Pereira',
     email: 'fulana@deliveryapp.com',
     role: 'seller',
   },
   {
-    id: 2,
+    id: 3,
     name: 'Cliente Zé Birita',
     email: 'zebirita@email.com',
     role: 'customer',

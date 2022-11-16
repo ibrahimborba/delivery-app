@@ -12,7 +12,6 @@ function CustomerOrders() {
 
     const getAllOrders = async () => {
       const result = await getSalesByUserEmail(user.email);
-      console.log(result);
       if (!result) return setOrders([]);
       setOrders(result);
     };

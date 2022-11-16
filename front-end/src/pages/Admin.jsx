@@ -96,18 +96,22 @@ function Admin() {
             onChange={ handleChange }
             placeholder="*********"
           />
-          <select
-            name="role"
-            data-testid="admin_manage__select-role"
-            onChange={ handleChange }
-            value={ userInfo.role }
-          >
-            {roles.map((roleType, index) => (
-              <option value={ roleType } key={ index }>
-                {roleType}
-              </option>
-            ))}
-          </select>
+          <label htmlFor="role">
+            Tipo
+            <select
+              id="role"
+              name="role"
+              data-testid="admin_manage__select-role"
+              onChange={ handleChange }
+              value={ userInfo.role }
+            >
+              {roles.map((roleType, index) => (
+                <option value={ roleType } key={ index }>
+                  {roleType}
+                </option>
+              ))}
+            </select>
+          </label>
           <Button
             dataTestId="admin_manage__button-register"
             type="submit"
@@ -152,14 +156,16 @@ function Admin() {
                 >
                   {user.role === 'seller' ? 'P. Vendedora' : 'Cliente'}
                 </td>
-                <button
-                  data-testid={ `admin_manage__element-user-table-remove-${index}` }
-                  type="button"
-                  value={ user.email }
-                  onClick={ handleRemoveUser }
-                >
-                  Excluir
-                </button>
+                <td>
+                  <button
+                    data-testid={ `admin_manage__element-user-table-remove-${index}` }
+                    type="button"
+                    value={ user.email }
+                    onClick={ handleRemoveUser }
+                  >
+                    Excluir
+                  </button>
+                </td>
               </tr>
             ))
           )}
