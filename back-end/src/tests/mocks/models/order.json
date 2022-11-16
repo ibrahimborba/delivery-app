@@ -1,0 +1,15 @@
+[
+  {
+    "userEmail": "zebirita@email.com",
+    "products": [{
+      "id": 1,
+      "name": "Skol",
+      "price": 2,
+      "quantity": 2
+    }],
+    "sellerId": 1,
+    "totalPrice": 10,
+    "deliveryAddress": "Endereço",
+    "deliveryNumber": 100
+  }
+]
