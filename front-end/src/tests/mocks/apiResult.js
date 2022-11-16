@@ -1,4 +1,4 @@
-const sellers = [
+export const sellers = [
   {
     id: 1,
     name: 'Seller 1',
@@ -13,4 +13,17 @@ const sellers = [
   },
 ];
 
-export default sellers;
+export const users = [
+  {
+    id: 1,
+    name: 'Fulana Pereira',
+    email: 'fulana@deliveryapp.com',
+    role: 'seller',
+  },
+  {
+    id: 2,
+    name: 'Cliente Zé Birita',
+    email: 'zebirita@email.com',
+    role: 'customer',
+  },
+];

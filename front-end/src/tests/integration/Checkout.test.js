@@ -1,26 +1,25 @@
 import React from 'react'
 import * as axios from 'axios';
-// import { sellers } from '../../services/api';
 import * as api from '../../services/api';
-import { act, screen, waitFor } from '@testing-library/react'
+import { act, screen } from '@testing-library/react'
 import CustomerCheckout from '../../pages/CustomerCheckout'
 import renderWithRouterContext from '../helpers/renderWithRouterContext'
 import orders from '../mocks/checkoutProducts'
 import { customer } from '../mocks/users'
 import userEvent from '@testing-library/user-event'
-import apiResult from '../mocks/apiResult';
+import { sellers } from '../mocks/apiResult';
 
 jest.mock('axios');
 
 const DELIVERY_ADDRESS = 'Rua de teste';
-const DELIVERY_NUMBER = 100;
+const DELIVERY_NUMBER = '100';
 
 describe('Customer Checkout page', () => {
   describe('render', () => {
     afterEach(() => jest.clearAllMocks());
 
     it('Check if Customer checkout page elements are rendering as expected', () => {
-      axios.get.mockResolvedValue({ data: apiResult });
+      axios.get.mockResolvedValue({ data: sellers });
 
       renderWithRouterContext(<CustomerCheckout />, { loggedUser: customer}, {orders});
 
@@ -55,8 +54,24 @@ describe('Customer Checkout page', () => {
   describe('Behavior', () => {
     afterEach(() => jest.clearAllMocks());
 
+    it('Should enable finish order button', async () => {
+      axios.get.mockResolvedValue({ data: sellers });
+
+      renderWithRouterContext(<CustomerCheckout />, { loggedUser: customer }, { orders });
+      
+      const deliveryAddressInput = screen.getByLabelText(/endereço/i);
+      const deliveryNumberInput = screen.getByLabelText(/Número/i);
+      const finishOrderBtn = screen.getByRole('button', { name: /finalizar pedido/i });
+      
+      userEvent.type(deliveryAddressInput, DELIVERY_ADDRESS);
+      userEvent.type(deliveryNumberInput, DELIVERY_NUMBER);
+
+      expect(finishOrderBtn).toBeInTheDocument();
+      expect(finishOrderBtn).not.toBeDisabled();
+    })
+
     it('Should disable finish order button if empty address', async () => {
-      axios.get.mockResolvedValue({ data: apiResult });
+      axios.get.mockResolvedValue({ data: sellers });
       
       renderWithRouterContext(<CustomerCheckout />, { loggedUser: customer }, { orders });
       
@@ -70,7 +85,7 @@ describe('Customer Checkout page', () => {
     })
 
     it('Should disable finish order button if empty number', async () => {
-      axios.get.mockResolvedValue({ data: apiResult });
+      axios.get.mockResolvedValue({ data: sellers });
       
       renderWithRouterContext(<CustomerCheckout />, { loggedUser: customer }, { orders });
       
@@ -82,32 +97,14 @@ describe('Customer Checkout page', () => {
       expect(finishOrderBtn).toBeInTheDocument();
       expect(finishOrderBtn).toBeDisabled();
     })
-
-    // it('Should enable finish order button', async () => {
-    //   axios.get.mockResolvedValue({ data: apiResult });
-
-    //   renderWithRouterContext(<CustomerCheckout />, { loggedUser: customer }, { orders });
-      
-    //   const deliveryAddressInput = screen.getByLabelText(/endereço/i);
-    //   const deliveryNumberInput = screen.getByLabelText(/Número/i);
-    //   const finishOrderBtn = screen.getByRole('button', { name: /finalizar pedido/i });
-
-    //   // userEvent.selectOptions(sellerInput, )
-    //   userEvent.type(deliveryAddressInput, DELIVERY_ADDRESS);
-    //   userEvent.type(deliveryNumberInput, DELIVERY_NUMBER);
-
-    //   expect(finishOrderBtn).toBeInTheDocument();
-    //   expect(finishOrderBtn).not.toBeDisabled();
-    // })
   })
 
   describe('Remove product from cart', () => {
     afterEach(() => jest.clearAllMocks());
     it('Should remove product when remove button selected', () => {
-      // axios.get.mockResolvedValue({ data: apiResult });
       
       act(() => {
-        api.sellers = jest.fn().mockImplementation(() => apiResult);
+        api.sellers = jest.fn().mockImplementation(() => sellers);
 
         renderWithRouterContext(
           <CustomerCheckout />,
