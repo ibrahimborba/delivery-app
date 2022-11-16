@@ -90,7 +90,28 @@ describe('GET /sales', () => {
         sinon.stub(sale, 'findAll').throws(INTERNAL_SERVER_ERROR);
 
         response = await chai.request(app)
-        .get('/seller/orders');
+        .get('/customer/sales');
+      });
+
+      after(() => { sale.findAll.restore(); });
+
+      it('returns expected status', () => {
+        expect(response).to.have.status(500);
+      });
+      it('response contains expected message', () => {
+        expect(response.body.message).to.be.equals(INTERNAL_SERVER_ERROR);
+      });
+    });
+
+    describe('Orders not found', () => {
+      let response;
+      const INTERNAL_SERVER_ERROR = 'Internal Server Error';
+
+      before(async () => {
+        sinon.stub(sale, 'findAll').resolves(null);
+
+        response = await chai.request(app)
+        .get('/customer/sales');
       });
 
       after(() => { sale.findAll.restore(); });
