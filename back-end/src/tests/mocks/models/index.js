@@ -60,6 +60,7 @@ const saleByIdMock = {
 
 const saleMock = {
   findAll: async () => mockFindAll(sales),
+  findOne: async ({ where }) => mockFindOne(sales, where),
   create: async (newSale) => mockCreate(sales, newSale),
 }
 
