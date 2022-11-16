@@ -3,6 +3,7 @@ const products = require('./products.json');
 const saleById = require('./saleById.json');
 const sales = require('./sales.json');
 const salesProducts = require('./salesProducts.json');
+const order = require('./order.json');
 
 const mockFindOne = (Entity, where) => {
   if (!where) return Entity[0];
@@ -15,16 +16,27 @@ const mockFindOne = (Entity, where) => {
   return { dataValues: result};
 };
 
+const mockFindByEmail = (Entity, email) => {
+  const result = Entity.find((instance) => instance.email === email);
+  if(!result) return null;
+  return result.id;
+};
+
+const mockFindAll = (Entity) => {
+  const withoutPassword = Entity.map(({password, ...instance}) => instance);
+  return withoutPassword;
+};
+
+const mockFindAllByUserId = (Entity, userId) => {
+  const result = Entity.filter((instance) => instance.userId === Number(userId));
+  return result;
+};
+
 const mockFindByPk = (Entity, id) => {
   const result = Entity.find((instance) => instance.id === Number(id));
   if(!result) return null;
   const withoutPassword = { ...result };
   delete withoutPassword.password;
-  return withoutPassword;
-};
-
-const mockFindAll = (Entity) => {
-  const withoutPassword = Entity.map(({password, ...instance}) => instance);
   return withoutPassword;
 };
 
@@ -94,10 +106,16 @@ const saleProductMock = {
    create: async (newSale) => mockBulkCreate(salesProducts, newSale),
 }
 
+const customerOrderMock = {
+  findOne: async (email) => mockFindByEmail(users, email),
+  findAll: async(userId) => mockFindAllByUserId(order, userId),
+};
+
 module.exports = {
   userMock,
   productMock,
   saleByIdMock,
   saleMock,
-  saleProductMock
+  saleProductMock,
+  customerOrderMock,
 };
