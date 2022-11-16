@@ -39,7 +39,7 @@ const getUsersAndSellers = async () => user.findAll({
 const removeUser = async (email) => {
   const userToRemove = await user.findOne({ where: { email } });
   if (!userToRemove) return null;
-  await userToRemove.destroy();
+  await user.destroy({ where: { email } });
   return userToRemove;
 };
 

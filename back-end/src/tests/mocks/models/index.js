@@ -52,9 +52,26 @@ const mockUpdate = (Entity, fields, { where }) => {
   return result;
 };
 
+const mockDestroy = (Entity, where) => {
+  if (!where) return Entity[0];
+  if (where.id) where.id = Number(where.id);
+
+  console.log('DESTROY', where);
+
+  const options = Object.keys(where);
+  const result = Entity.find((instance) => {
+    return options.every((option) => where[option] === instance[option]);
+  });
+  if(!result) return null;
+
+  return result;
+};
+
 const userMock = {
+  findAll: async () => mockFindAll(users),
   findOne: async ({ where }) => mockFindOne(users, where),
   create: async (newUser) => mockCreate(users, newUser),
+  destroy: async ({ where }) => mockDestroy(users, where),
 };
 
 const productMock = {
