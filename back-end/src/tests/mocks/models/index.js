@@ -59,6 +59,7 @@ const saleByIdMock = {
 };
 
 const saleMock = {
+  findAll: async () => mockFindAll(sales),
   create: async (newSale) => mockCreate(sales, newSale),
 }
 
