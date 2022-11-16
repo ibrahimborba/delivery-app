@@ -20,27 +20,9 @@ const mockFindAll = (Entity) => {
   return withoutPassword;
 };
 
-const mockFindByPk = (Entity, id) => {
-  const result = Entity.find((instance) => instance.id === Number(id));
-  if(!result) return null;
-  const withoutPassword = { ...result };
-  delete withoutPassword.password;
-  return withoutPassword;
-};
-
 const mockCreate = (Entity, newInstance) => {
   Entity.push(newInstance);
   return { ...newInstance, id: Entity.length };
-};
-
-const mockFindAndCountAll = (Entity, where) => {
-  if (!where) return Entity[0];
-  const options = Object.keys(where);
-  const result = Entity.filter((instance) => {
-    return options.every((option) => where[option]
-      .some((whereOption) => whereOption === instance[option]));
-  });
-  return { count: result.length, rows: result };
 };
 
 const mockBulkCreate = (Entity, newInstances) => {
@@ -62,25 +44,9 @@ const mockUpdate = (Entity, fields, { where }) => {
   return result;
 };
 
-const mockDestroy = (Entity, where) => {
-  if (!where) return Entity[0];
-  if (where.id) where.id = Number(where.id);
-
-  const options = Object.keys(where);
-  const result = Entity.find((instance) => {
-    return options.every((option) => where[option] === instance[option]);
-  });
-  if(!result) return null;
-
-  return result;
-};
-
 const userMock = {
-  findAll: async () => mockFindAll(users),
   findOne: async ({ where }) => mockFindOne(users, where),
-  findByPk: async (id) => mockFindByPk(users, id),
   create: async (newUser) => mockCreate(users, newUser),
-  destroy: async ({ where }) => mockDestroy(users, where),
 };
 
 const productMock = {
