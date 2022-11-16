@@ -94,7 +94,7 @@ describe('GET /seller/orders/:id', () => {
     it('returns expected status', () => {
       expect(response).to.have.status(200);
     });
-    it('response contains orders', function () {
+    it('response contains order', function () {
       expect(response.body).to.be.eql({ dataValues:expectedSales[0] });
     });
   });
@@ -133,6 +133,60 @@ describe('GET /seller/orders/:id', () => {
       });
 
       after(() => { sale.findOne.restore(); });
+
+      it('returns expected status', () => {
+        expect(response).to.have.status(500);
+      });
+      it('response contains expected message', () => {
+        expect(response.body.message).to.be.equals(INTERNAL_SERVER_ERROR);
+      });
+    });
+  })
+});
+
+describe('PATCH /seller/orders/:id', () => {
+  describe('Success', () => {
+    let response;
+
+    before(async () => {
+      sinon.stub(sale, 'update').callsFake(saleMock.update);
+      sinon.stub(sale, 'findByPk').callsFake(saleMock.findByPk);
+
+      response = await chai.request(app)
+      .patch('/seller/orders/1')
+      .send({ status: 'Preparando' });
+    });
+
+    after(() => {
+      sale.update.restore();
+      sale.findByPk.restore();
+    });
+
+    it('returns expected status', () => {
+      expect(response).to.have.status(200);
+    });
+    it('response contains order', function () {
+      expect(response.body).to.be.eql(expectedSales[0]);
+    });
+    it('response contains order with updated status', function () {
+      expect(response.body.status).to.be.equal('Preparando');
+    });
+  });
+
+  describe('Error', () => {
+    describe('Throws an error', () => {
+      let response;
+      const INTERNAL_SERVER_ERROR = 'Internal server error';
+
+      before(async () => {
+        sinon.stub(sale, 'update').throws(INTERNAL_SERVER_ERROR);
+
+        response = await chai.request(app)
+        .patch('/seller/orders/1')
+        .send({ status: 'Preparando' });
+      });
+
+      after(() => { sale.update.restore(); });
 
       it('returns expected status', () => {
         expect(response).to.have.status(500);

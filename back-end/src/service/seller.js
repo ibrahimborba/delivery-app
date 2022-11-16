@@ -25,8 +25,6 @@ const getTenProducts = async () => {
         { model: user, as: 'seller' },
       ],
     });
-  
-    if (!result) return null;
 
     return result;
   };

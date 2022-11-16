@@ -15,6 +15,14 @@ const mockFindOne = (Entity, where) => {
   return { dataValues: result};
 };
 
+const mockFindByPk = (Entity, id) => {
+  const result = Entity.find((instance) => instance.id === Number(id));
+  if(!result) return null;
+  const withoutPassword = { ...result };
+  delete withoutPassword.password;
+  return withoutPassword;
+};
+
 const mockFindAll = (Entity) => {
   const withoutPassword = Entity.map(({password, ...instance}) => instance);
   return withoutPassword;
@@ -60,8 +68,10 @@ const saleByIdMock = {
 
 const saleMock = {
   findAll: async () => mockFindAll(sales),
+  findByPk: async (id) => mockFindByPk(sales, id),
   findOne: async ({ where }) => mockFindOne(sales, where),
   create: async (newSale) => mockCreate(sales, newSale),
+  update: async (fields, where) => mockUpdate(sales, fields, where),
 }
 
 const saleProductMock = {

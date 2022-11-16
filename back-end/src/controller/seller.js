@@ -11,7 +11,6 @@ const getTenProducts = async (_req, res) => {
         return res.status(200).json(result);
     } catch (error) {
         console.error(error);
-
         return res.status(500).json({ message: INTERNAL_ERROR });
     }
 };
@@ -26,7 +25,6 @@ const getProductById = async (req, res) => {
         return res.status(200).json(response);
     } catch (error) {
         console.error(error);
-
         return res.status(500).json({ message: INTERNAL_ERROR });
     }
 };
@@ -39,7 +37,6 @@ const update = async (req, res) => {
         return res.status(200).json(result);
     } catch (error) {
         console.error(error);
-
         return res.status(500).json({ message: INTERNAL_ERROR });
     }
   };
